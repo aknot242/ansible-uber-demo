@@ -1,0 +1,40 @@
+---
+- name: Get latest TS and checksum file download urls
+  uri:
+    url: https://api.github.com/repos/F5Networks/f5-telemetry-streaming/releases/latest
+    return_content: true
+    status_code: 200
+  register: ts_github_releases
+  check_mode: false
+- set_fact:
+    # weird workaround below: https://github.com/ansible/ansible/issues/27299
+    ts_latest_release_url: "{{ ts_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.rpm`)] | [0] | browser_download_url') }}"
+    ts_latest_release_checksum_url: "{{ ts_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.sha256`)] | [0] | browser_download_url') }}"
+
+- name: Download TS checksum file (sha256)
+  get_url:
+    url: "{{ ts_latest_release_checksum_url }}"
+    dest: "{{ tmp_dir }}/{{ ts_file_sha256 }}"
+    force: true
+  check_mode: false
+
+- name: Set TS checksum var
+  set_fact:
+    ts_checksum: "{{ lookup('file', '{{ tmp_dir }}/{{ ts_file_sha256 }}') | regex_search('^(\\S*)') }}"
+
+- name: Download latest TS RPM file with check (sha256)
+  get_url:
+    url: "{{ ts_latest_release_url }}"
+    dest: "{{ tmp_dir }}/{{ ts_file }}"
+    checksum: "sha256:{{ ts_checksum }}"
+    force: true
+  check_mode: false
+
+
+- name: Add an iAppLX Package for Telemetry Streaming
+  bigip_lx_package:
+    package: "{{ tmp_dir }}/{{ ts_file }}"
+    provider: "{{ bigip_provider }}"
+    state: present
+    validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost

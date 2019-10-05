@@ -1,0 +1,34 @@
+---
+- name: Start docker service
+  service:
+    name: docker
+    state: started
+    enabled: true
+  register: docker_service_output
+  become: true
+  ignore_errors: true
+
+- name: Ensure that docker has started...
+  shell: docker ps
+  register: docker_status
+  until: docker_status.rc == 0
+  failed_when: docker_status.rc == 1
+  retries: 4
+  delay: 5
+  tags:
+    - check-docker-service
+
+- debug:
+    var: docker_status
+  tags:
+    - check-docker-service
+
+- name: Tear down existing services
+  docker_compose:
+    project_src: "{{ role_path }}/files/docker"
+    state: absent
+
+- name: Create and start services
+  docker_compose:
+    project_src: "{{ role_path }}/files/docker"
+  register: output

@@ -1,0 +1,12 @@
+---
+- name: Bootstrap the server
+  import_tasks: bootstrap-server.yml
+
+- name: Check that docker is running and tear down existing containers in the docker-compose file
+  import_tasks: docker-containers.yml
+
+- name: Configure Elasticsearch
+  import_tasks: elasticsearch.yml
+
+- name: Configure Grafana
+  import_tasks: grafana.yml

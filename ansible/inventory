@@ -1,0 +1,5 @@
+[servers]
+10.1.1.5    ansible_connection=local
+
+[big_ips]
+10.1.1.4

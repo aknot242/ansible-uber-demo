@@ -1,0 +1,3 @@
+*.pyc
+ansible/roles/ansible-netplan
+ansible/roles/big-ip/files/tmp/

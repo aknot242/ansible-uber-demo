@@ -1,0 +1,29 @@
+{
+    "class": "Telemetry",
+    "TS_System": {
+        "class": "Telemetry_System",
+        "systemPoller": {
+            "interval": 60
+        }
+    },
+    "TS_Listener": {
+        "class": "Telemetry_Listener",
+        "port": 6514
+    },
+    "Statsd_Consumer": {
+        "class": "Telemetry_Consumer",
+        "type": "Statsd",
+        "host": "{{ app_server_address }}",
+        "protocol": "udp",
+        "port": 8125
+    },
+    "ElasticSearch_Consumer": {
+        "class": "Telemetry_Consumer",
+        "type": "ElasticSearch",
+        "host": "{{ app_server_address }}",
+        "index": "f5telemetryindex",
+        "port": 9200,
+        "protocol": "http",
+        "dataType": "f5.telemetry"
+    }
+}

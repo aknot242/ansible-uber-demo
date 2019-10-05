@@ -1,0 +1,69 @@
+{
+    "class": "AS3",
+    "action": "deploy",
+    "persist": true,
+    "declaration": {
+        "class": "ADC",
+        "schemaVersion": "3.9.0",
+        "id": "{{ app_tenant | lower }}",
+        "label": "{{ app_tenant }}",
+        "remark": "Juice Shop Web App",
+        "{{ app_tenant }}": {
+            "class": "Tenant",
+            "Application_1": {
+                "class": "Application",
+                "template": "http",
+                "serviceMain": {
+                    "class": "Service_HTTP",
+                    "virtualAddresses": [
+                        "{{ app_virtual_address }}"
+                    ],
+                    "pool": "web_pool",
+                    "profileTrafficLog": {
+                        "bigip": "/Common/Shared/telemetry_traffic_log_profile"
+                    },
+                    "policyWAF": {
+                        "use": "ASM_Policy"
+                    },
+                    "securityLogProfiles": [
+                        {
+                            "bigip": "/Common/Shared/telemetry_security_log_profile"
+                        },
+                        {
+                            "bigip": "/Common/Log illegal requests"
+                        }
+                    ]
+                },
+                "web_pool": {
+                    "class": "Pool",
+                    "monitors": [
+                        {
+                            "use": "http_{{ app_tenant | lower }}"
+                        }
+                    ],
+                    "members": [
+                        {
+                            "servicePort": {{ app_server_port }},
+                            "serverAddresses": [
+                                "{{ app_server_address }}"
+                            ]
+                        }
+                    ]
+                },
+                "http_{{ app_tenant | lower }}": {
+                    "class": "Monitor",
+                    "monitorType": "http",
+                    "send": "GET / HTTP/1.0\r\n",
+                    "receive": "HTTP/1.1 200 OK",
+                    "interval": 5,
+                    "timeout": 16
+                },
+                "ASM_Policy": {
+                    "class": "WAF_Policy",
+                    "url": "https://raw.githubusercontent.com/f5devcentral/f5-ansible-asm-example/master/roles/bigip_base_asm/files/asm-policy-linux-high.xml",
+                    "ignoreChanges": false
+                }
+            }
+        }
+    }
+}

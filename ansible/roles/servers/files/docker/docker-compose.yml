@@ -1,0 +1,37 @@
+version: '3'
+services:
+  grafana:
+    image: "grafana/grafana"
+    restart: unless-stopped
+    depends_on:
+      - graphite
+    ports:
+      - "3030:3000"
+    env_file:
+      - grafana-vars.env
+
+  graphite:
+    image: "graphiteapp/graphite-statsd"
+    restart: unless-stopped
+    ports:
+      - "3400:80"
+      - "2003-2004:2003-2004"
+      - "2023-2024:2023-2024"
+      - "8125:8125/udp"
+      - "8126:8126"
+      - "8080:8080"
+
+  elasticsearch:
+    image: "elasticsearch:7.3.1"
+    restart: unless-stopped
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+
+  juice_shop_app:
+    image: bkimminich/juice-shop
+    restart: unless-stopped
+    ports:
+      - "3300:3000"

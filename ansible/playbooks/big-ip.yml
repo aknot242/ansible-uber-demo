@@ -1,0 +1,7 @@
+---
+# file: big-ip.yml
+- hosts: big_ips
+  connection: local
+  roles:
+    - big-ip
+    

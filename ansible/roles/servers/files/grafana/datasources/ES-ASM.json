@@ -1,0 +1,16 @@
+{
+    "id": 6,
+    "orgId": 1,
+    "name": "ES-ASM",
+    "type": "elasticsearch",
+    "typeLogoUrl": "public/app/plugins/datasource/elasticsearch/img/elasticsearch.svg",
+    "access": "proxy",
+    "url": "http://elasticsearch:9200",
+    "password": "",
+    "user": "",
+    "database": "f5telemetryindex",
+    "basicAuth": false,
+    "isDefault": false,
+    "jsonData": { "esVersion": 70, "keepCookies": [], "logLevelField": "", "logMessageField": "", "maxConcurrentShardRequests": 5, "timeField": "data.date_time" },
+    "readOnly": false
+}

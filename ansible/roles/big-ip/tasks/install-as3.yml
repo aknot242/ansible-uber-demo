@@ -1,0 +1,40 @@
+---
+- name: Get latest AS3 and checksum file download urls
+  uri:
+    url: https://api.github.com/repos/F5Networks/f5-appsvcs-extension/releases/latest
+    return_content: true
+    status_code: 200
+  register: as3_github_releases
+  check_mode: false
+- set_fact:
+    # weird workaround below: https://github.com/ansible/ansible/issues/27299
+    as3_latest_release_url: "{{ as3_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.rpm`)] | [0] | browser_download_url') }}"
+    as3_latest_release_checksum_url: "{{ as3_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.sha256`)] | [0] | browser_download_url') }}"
+
+- name: Download AS3 checksum file (sha256)
+  get_url:
+    url: "{{ as3_latest_release_checksum_url }}"
+    dest: "{{ tmp_dir }}/{{ as3_file_sha256 }}"
+    force: true
+  check_mode: false
+
+- name: Set AS3 checksum var
+  set_fact:
+    as3_checksum: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_file_sha256 }}') | regex_search('^(\\S*)') }}"
+
+- name: Download latest AS3 RPM file with check (sha256)
+  get_url:
+    url: "{{ as3_latest_release_url }}"
+    dest: "{{ tmp_dir }}/{{ as3_file }}"
+    checksum: "sha256:{{ as3_checksum }}"
+    force: true
+  check_mode: false
+
+
+- name: Add an iAppLX Package for Application Services 3
+  bigip_lx_package:
+    package: "{{ tmp_dir }}/{{ as3_file }}"
+    provider: "{{ bigip_provider }}"
+    state: present
+    validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost

@@ -1,0 +1,4 @@
+---
+# file: site.yml
+- import_playbook: servers.yml
+- import_playbook: big-ip.yml

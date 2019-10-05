@@ -1,0 +1,47 @@
+---
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu bionic stable
+    state: present
+
+- name: Install required system packages
+  apt:
+    name: "{{ packages }}"
+    state: latest
+    update_cache: true
+    force_apt_get: true
+  vars:
+    packages:
+    - aptitude
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - python-pip
+    - virtualenv
+    - python-setuptools
+    - rpm
+    - python-jmespath
+    - docker.io
+
+- name: Make sure Docker service is running and set to automatically start on boot
+  systemd:
+    state: started
+    name: docker
+    enabled: true
+
+- name: Install Docker Compose Module for Python
+  pip:
+    name: docker-compose
+
+- name: Create new network interface
+  import_role:
+    name: ansible-netplan
+  become: true
+
+- name: Force netplan apply (ansible-netplan does not seem to be doing it)
+  raw: sudo netplan apply
