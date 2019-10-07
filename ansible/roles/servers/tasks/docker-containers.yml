@@ -31,4 +31,6 @@
 - name: Create and start services
   docker_compose:
     project_src: "{{ role_path }}/files/docker"
+  environment:
+    KAFKA_ADVERTISED_HOST_NAME: "{{ inventory_hostname }}"
   register: output

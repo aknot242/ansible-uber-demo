@@ -2,9 +2,8 @@
 A comprehensive demonstration Ansible-based solution to quickly build and deploy an application in a public cloud using F5 and NGINX technology
 
 ## Featuring
-- Graphite/StatsD
 - Grafana
-- ElasticSearch
+- Kafka w/Zookeeper
 - [Juice Shop app](https://hub.docker.com/r/bkimminich/juice-shop/)
 
 ## Dependencies
@@ -32,16 +31,11 @@ A comprehensive demonstration Ansible-based solution to quickly build and deploy
     3. Install TS
 4. Build containers
     1. Grafana
-        1. Set ENV vars
-    2. Graphite & StatsD
         1. API call to install GeoLocation map plugin
         2. API call to add alert channel (Teams?)
         3. API call to add datasources
         4. API call to import JSON dashboard
-    3. ElasticSearch
-        1. API call to build the index
-        2. API call to set the query size and fieldsize
-        3. API call to set the indexable text field
+    3. Kafka & Zookeeper
 5. Configure AS3 TS common log entities
 6. Configure AS3 Juice Shop VS
 7. Send TS Declaration to BIG-IP

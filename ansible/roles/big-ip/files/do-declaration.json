@@ -5,22 +5,22 @@
     "async": true,
     "Common": {
         "class": "Tenant",
-        "hostname": "{{bigip_hostname}}",
+        "hostname": "{{ bigip_hostname }}",
         "myDns": {
             "class": "DNS",
             "nameServers": [
-                {{bigip_dns_server}}
+                {{ bigip_dns_server }}
             ],
             "search": [
-                {{bigip_dns_search}}
+                {{ bigip_dns_search }}
             ]
         },
         "myNtp": {
             "class": "NTP",
             "servers": [
-                {{bigip_ntp_server}}
+                {{ bigip_ntp_server }}
             ],
-            "timezone": "{{bigip_ntp_timezone}}"
+            "timezone": "{{ bigip_ntp_timezone }}"
         },
         "myProvisioning": {
             "class": "Provision",
@@ -52,7 +52,7 @@
         },
         "external-self": {
             "class": "SelfIp",
-            "address": "{{bigip_external_self_ip}}",
+            "address": "{{ bigip_external_self_ip }}",
             "vlan": "external",
             "allowService": [
                 "tcp:443"
@@ -61,7 +61,7 @@
         },
         "internal-self": {
             "class": "SelfIp",
-            "address": "{{bigip_internal_self_ip}}",
+            "address": "{{ bigip_internal_self_ip }}",
             "vlan": "internal",
             "allowService": "default",
             "trafficGroup": "traffic-group-local-only"

@@ -1,34 +1,43 @@
 version: '3'
 services:
   grafana:
-    image: "grafana/grafana"
+    image: grafana/grafana
     restart: unless-stopped
     depends_on:
-      - graphite
+      - kafka
     ports:
       - "3030:3000"
-    env_file:
-      - grafana-vars.env
-
-  graphite:
-    image: "graphiteapp/graphite-statsd"
-    restart: unless-stopped
-    ports:
-      - "3400:80"
-      - "2003-2004:2003-2004"
-      - "2023-2024:2023-2024"
-      - "8125:8125/udp"
-      - "8126:8126"
-      - "8080:8080"
-
-  elasticsearch:
-    image: "elasticsearch:7.3.1"
-    restart: unless-stopped
-    ports:
-      - "9200:9200"
-      - "9300:9300"
     environment:
-      - discovery.type=single-node
+      GF_USERS_ALLOW_SIGN_UP: false
+      GF_USERS_AUTO_ASSIGN_ORG: true
+      GF_USERS_AUTO_ASSIGN_ORG_ROLE: Editor
+      GF_AUTH_PROXY_ENABLED: true
+      GF_AUTH_PROXY_HEADER_NAME: X-WEBAUTH-USER
+      GF_AUTH_PROXY_HEADER_PROPERTY: username
+      GF_AUTH_PROXY_AUTO_SIGN_UP: true
+      GF_AUTH_PROXY_WHITELIST: 10.0.3.0/24
+      GF_INSTALL_PLUGINS: grafana-worldmap-panel
+      GF_SERVER_ROOT_URL: http://grafana.server.name:3030
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    restart: unless-stopped
+    ports:
+      - "2181:2181"
+
+  kafka:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: ${ KAFKA_ADVERTISED_HOST_NAME } 
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "f5-telemetry:1:1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
   juice_shop_app:
     image: bkimminich/juice-shop
