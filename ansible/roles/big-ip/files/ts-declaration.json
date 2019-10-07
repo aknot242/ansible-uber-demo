@@ -12,10 +12,9 @@
     },
     "My_Consumer": {
         "class": "Telemetry_Consumer",
-        "type": "Kafka",
+        "type": "Graphite",
         "host": "{{ app_server_address }}",
-        "protocol": "binaryTcp",
-        "port": 9092,
-        "topic": "f5-telemetry"
+        "protocol": "http",
+        "port": 3400
     }
 }
