@@ -77,20 +77,20 @@
     status_code: 200
   loop: "{{ grafana_alert_notifications_list }}"
 
-- name: Create grafana alert notifications
-  uri:
-    url: "{{ grafana_base_url }}/api/alert-notifications"
-    user: "{{ grafana_username }}"
-    password: "{{ grafana_password }}"
-    method: POST
-    body: "{{ lookup('file', item) }}"
-    force_basic_auth: true
-    status_code: 200
-    body_format: json
-  with_fileglob:
-    - "files/grafana/alert-notifications/*.json"
+# - name: Create grafana alert notifications
+#   uri:
+#     url: "{{ grafana_base_url }}/api/alert-notifications"
+#     user: "{{ grafana_username }}"
+#     password: "{{ grafana_password }}"
+#     method: POST
+#     body: "{{ lookup('file', item) }}"
+#     force_basic_auth: true
+#     status_code: 200
+#     body_format: json
+#   with_fileglob:
+#     - "files/grafana/alert-notifications/*.json"
 
-- name: Create grafana alert notifications
+- name: Create grafana dashboard
   uri:
     url: "{{ grafana_base_url }}/api/dashboards/db"
     user: "{{ grafana_username }}"
