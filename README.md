@@ -8,6 +8,7 @@ A comprehensive demonstration Ansible-based solution to quickly build and deploy
 
 ## Dependencies
 - Ansible 2.8
+- Inspec 4.7+
 
 ## Prerequisites
 - This demo assumes an Ansible and Docker host of Ubuntu 18.04 (Bionic)
