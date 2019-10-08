@@ -1,0 +1,10 @@
+name: demo-setup
+title: Validate demo setup
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: MIT
+summary: verify that all of the necessary preconditions exist for the demo to execute successfully 
+version: 0.1.0
+supports:
+  platform: os
