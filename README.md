@@ -19,7 +19,7 @@ docker run --rm -it willhallonline/ansible:2.8-ubuntu-18.04 /bin/sh
 - The Ubuntu server must be able to connect to your specified BIG-IP
 
 ```
-inspec exec demo-setup -t docker://[docker container id]
+inspec exec demo-setup -t docker://[docker container id] --input bigip_host=[hostname of bigip] bigip_mgmt_port=[mgmt port of bigip]
 ```
 
 - The BIG-IP must already be configured with a management address, and must already have an admin account password set. See [these instructions](https://support.f5.com/csp/article/K13121) for setting the admin password on BIG-IP.

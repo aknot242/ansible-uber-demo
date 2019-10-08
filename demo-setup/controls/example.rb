@@ -18,7 +18,7 @@ control "Connectivity" do
     impact 1.0
     title "Verify that all requisite connectivity is available"
 
-    describe host('10.1.20.71', port: 6443, protocol: 'tcp') do
+    describe host(input('bigip_host'), port: input('bigip_mgmt_port'), protocol: 'tcp') do
         it { should be_reachable }
     end
 end 
