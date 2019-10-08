@@ -12,6 +12,13 @@ control "Tools" do                        # A unique ID for this control
     it { should be_installed }
     its('version') { should cmp >= '2.8' }
   end
+  #Ubuntu is a debian derivative
+  describe os.family do
+    it {should eq 'debian'}
+  end
+  describe os.release do
+    it {should cmp >= '18.04'}
+  end
 end
 
 control "Connectivity" do
