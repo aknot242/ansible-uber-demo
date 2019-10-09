@@ -14,7 +14,7 @@
         "class": "Telemetry_Consumer",
         "type": "ElasticSearch",
         "host": "{{ app_server_address }}",
-        "index": "f5telemetryindex",
+        "index": "{{ elasticsearch_index }}",
         "port": 9200,
         "protocol": "http",
         "dataType": "f5.telemetry"
