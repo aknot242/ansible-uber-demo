@@ -1,1 +1,19 @@
 # role variables
+
+# The netplan role will do nothing unless netplan_enabled is true.
+netplan_enabled: true
+# The default is /etc/netplan/config.yaml.
+netplan_config_file: /etc/netplan/udf-netplan.yaml
+# Ubuntu 18.04, for example, defaults to using networkd.
+netplan_renderer: networkd
+netplan_remove_existing: false
+netplan_apply: true
+netplan_configuration:
+  network:
+    version: 2
+    ethernets:
+      eth1:
+        dhcp4: false
+        addresses:
+          - "{{ app_server_address }}/24"
+        gateway4: "{{ app_server_gateway }}"
