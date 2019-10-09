@@ -1,1 +1,2 @@
-#module parameters
+# role default variables
+elasticsearch_index: "f5telemetryindex"

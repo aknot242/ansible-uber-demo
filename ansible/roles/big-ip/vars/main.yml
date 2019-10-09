@@ -1,4 +1,4 @@
-#role variables
+# role default variables
 
 tmp_dir: "{{role_path}}/files/tmp"
 do_declaration_template: "do-declaration.json"
