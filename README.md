@@ -3,7 +3,7 @@ A comprehensive demonstration Ansible-based solution to quickly build and deploy
 
 ## Featuring
 - Grafana
-- Kafka w/Zookeeper
+- ElasticSearch
 - [Juice Shop app](https://hub.docker.com/r/bkimminich/juice-shop/)
 
 ## Dependencies
@@ -46,7 +46,10 @@ inspec exec demo-setup -t docker://[docker container id] --input bigip_host=[hos
         2. API call to add alert channel (Teams?)
         3. API call to add datasources
         4. API call to import JSON dashboard
-    3. Kafka & Zookeeper
+    3. ElasticSearch
+        1. API call to build the index
+        2. API call to set the query size and fieldsize
+        3. API call to set an indexable text field from ASM
 5. Configure AS3 TS common log entities
 6. Configure AS3 Juice Shop VS
 7. Send TS Declaration to BIG-IP

@@ -10,11 +10,13 @@
         "class": "Telemetry_Listener",
         "port": 6514
     },
-    "My_Consumer": {
+    "ElasticSearch_Consumer": {
         "class": "Telemetry_Consumer",
-        "type": "Graphite",
+        "type": "ElasticSearch",
         "host": "{{ app_server_address }}",
+        "index": "f5telemetryindex",
+        "port": 9200,
         "protocol": "http",
-        "port": 3400
+        "dataType": "f5.telemetry"
     }
 }
