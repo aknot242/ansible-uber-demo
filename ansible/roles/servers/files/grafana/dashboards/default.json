@@ -219,49 +219,6 @@
         "type": "table"
       },
       {
-        "alert": {
-          "alertRuleTags": {},
-          "conditions": [
-            {
-              "evaluator": {
-                "params": [
-                  50
-                ],
-                "type": "gt"
-              },
-              "operator": {
-                "type": "and"
-              },
-              "query": {
-                "params": [
-                  "A",
-                  "5m",
-                  "now"
-                ]
-              },
-              "reducer": {
-                "params": [],
-                "type": "avg"
-              },
-              "type": "query"
-            }
-          ],
-          "executionErrorState": "alerting",
-          "for": "5m",
-          "frequency": "1m",
-          "handler": 1,
-          "message": "Imperative VS is over 50 connections for 5 minutes",
-          "name": "Imperative VS Current Cons alert",
-          "noDataState": "no_data",
-          "notifications": [
-            {
-              "uid": "Y_-WSmFWz"
-            },
-            {
-              "uid": "HlkKcBFZz"
-            }
-          ]
-        },
         "aliasColors": {},
         "bars": false,
         "dashLength": 10,
