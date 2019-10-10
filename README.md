@@ -3,6 +3,8 @@ A comprehensive demonstration Ansible-based solution to quickly build and deploy
 
 ## Featuring
 - Grafana
+- Graphite
+- StatsD
 - ElasticSearch
 - [Juice Shop app](https://hub.docker.com/r/bkimminich/juice-shop/)
 
@@ -46,6 +48,7 @@ inspec exec demo-setup -t docker://[docker container id] --input bigip_host=[hos
         2. API call to add alert channel (Teams?)
         3. API call to add datasources
         4. API call to import JSON dashboard
+    2. Graphite & StatsD
     3. ElasticSearch
         1. API call to build the index
         2. API call to set the query size and fieldsize

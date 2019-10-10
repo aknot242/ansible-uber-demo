@@ -40,7 +40,7 @@
     "panels": [
       {
         "cacheTimeout": null,
-        "datasource": "ES-Stats",
+        "datasource": "Graphite-Stats",
         "gridPos": {
           "h": 8,
           "w": 12,
@@ -559,7 +559,7 @@
       },
       {
         "cacheTimeout": null,
-        "datasource": "ES-Stats",
+        "datasource": "Graphite-Stats",
         "gridPos": {
           "h": 4,
           "w": 7,
@@ -619,7 +619,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": "ES-Stats",
+        "datasource": "Graphite-Stats",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -702,7 +702,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": "ES-Stats",
+        "datasource": "Graphite-Stats",
         "decimals": 0,
         "format": "none",
         "gauge": {
@@ -785,7 +785,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": "ES-Stats",
+        "datasource": "Graphite-Stats",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -864,7 +864,7 @@
         "cacheTimeout": "",
         "dashLength": 10,
         "dashes": false,
-        "datasource": "ES-Stats",
+        "datasource": "Graphite-Stats",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -956,7 +956,7 @@
         "cacheTimeout": "",
         "dashLength": 10,
         "dashes": false,
-        "datasource": "ES-Stats",
+        "datasource": "Graphite-Stats",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
