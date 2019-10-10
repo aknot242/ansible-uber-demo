@@ -17,6 +17,6 @@
         "index": "{{ elasticsearch_index }}",
         "port": 9200,
         "protocol": "http",
-        "dataType": "f5.telemetry"
+        "dataType": "_doc"
     }
 }
