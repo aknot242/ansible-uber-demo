@@ -43,7 +43,7 @@
 
 - name: Deploy common AS3 objects for use by Telemetry Streaming
   bigip_appsvcs_extension:
-    content: "{{ lookup('file', '{{ common_declaration_output_file }}') }}"
+    content: "{{ lookup('file', '{{ tmp_dir }}/{{ common_declaration_output_file }}') }}"
     state: present
     provider: "{{ bigip_provider }}"
     validate_certs: "{{ bigip_validate_certs }}"
