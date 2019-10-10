@@ -1,2 +1,22 @@
 # role default variables
 elasticsearch_index: "f5telemetryindex"
+ts_listener_port: 6514
+log_pool: 10.1.20.9
+
+tmp_dir: "{{role_path}}/files/tmp"
+do_declaration_template: "do-declaration.json"
+as3_ts_dependencies_declaration: "as3-common-declaration.json"
+as3_app_declaration_template: "as3-app-declaration.json"
+ts_declaration_template: "ts-declaration.json"
+
+as3_file: "as3.rpm"
+as3_file_sha256: "{{as3_file}}.sha256"
+
+do_file: "do.rpm"
+do_file_sha256: "{{do_file}}.sha256"
+
+ts_file: "ts.rpm"
+ts_file_sha256: "{{ts_file}}.sha256"
+
+app_tenant: "JuiceShop"
+app_server_port: "3300"

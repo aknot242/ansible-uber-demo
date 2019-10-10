@@ -8,7 +8,7 @@
     },
     "TS_Listener": {
         "class": "Telemetry_Listener",
-        "port": 6514
+        "port": {{ ts_listener_port }}
     },
     "Statsd_Consumer": {
         "class": "Telemetry_Consumer",

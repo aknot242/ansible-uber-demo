@@ -38,9 +38,14 @@
   retries: 20
   delay: 10
 
+- name: Prepare the common AS3 objects declaration from the template
+  template: src="{{ role_path }}/files/{{ as3_ts_dependencies_declaration }}" dest="{{ tmp_dir }}/{{ common_declaration_out }}"
+  vars:
+    common_declaration_out: "common_out.json"
+
 - name: Deploy common AS3 objects for use by Telemetry Streaming
   bigip_appsvcs_extension:
-    content: "{{ lookup('file', '{{ as3_ts_dependencies_declaration }}') }}"
+    content: "{{ lookup('file', '{{ common_declaration_out }}') }}"
     state: present
     provider: "{{ bigip_provider }}"
     validate_certs: "{{ bigip_validate_certs }}"

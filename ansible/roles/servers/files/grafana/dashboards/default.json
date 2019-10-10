@@ -17,16 +17,17 @@
           "type": "dashboard"
         },
         {
-          "datasource": "ES-LTM",
+          "datasource": "ES-ASM",
           "enable": false,
           "hide": false,
           "iconColor": "rgba(255, 96, 96, 1)",
           "limit": 100,
-          "name": "Requests",
-          "query": "telemetryEventCategory:LTM",
+          "name": "Violations",
+          "query": "telemetryEventCategory:ASM",
           "showIn": 0,
           "tags": [],
-          "timeField": "data.event_timestamp",
+          "textField": "data.attack_type",
+          "timeField": "data.date_time",
           "type": "tags"
         }
       ]
@@ -35,7 +36,7 @@
     "gnetId": null,
     "graphTooltip": 0,
     "id": null,
-    "iteration": 1569094937281,
+    "iteration": 1570718305768,
     "links": [],
     "panels": [
       {
@@ -76,7 +77,7 @@
           "showThresholdLabels": false,
           "showThresholdMarkers": true
         },
-        "pluginVersion": "6.3.5",
+        "pluginVersion": "6.4.2",
         "targets": [
           {
             "hide": false,
@@ -92,8 +93,8 @@
       {
         "columns": [
           {
-            "text": "data.event_timestamp",
-            "value": "data.event_timestamp"
+            "text": "data.date_time",
+            "value": "data.date_time"
           },
           {
             "text": "data.client_ip",
@@ -187,7 +188,7 @@
             "dateFormat": "MM/DD/YY h:mm:ss a",
             "decimals": 2,
             "mappingType": 1,
-            "pattern": "data.event_timestamp",
+            "pattern": "data.date_time",
             "thresholds": [],
             "type": "date",
             "unit": "short"
@@ -209,7 +210,7 @@
             ],
             "query": "telemetryEventCategory:LTM",
             "refId": "A",
-            "timeField": "data.event_timestamp"
+            "timeField": "data.date_time"
           }
         ],
         "timeFrom": null,
@@ -223,6 +224,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
+        "datasource": "Graphite-Stats",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -328,10 +330,6 @@
           {
             "text": "data.geo_location",
             "value": "data.geo_location"
-          },
-          {
-            "text": "data.support_id",
-            "value": "data.support_id"
           }
         ],
         "datasource": "ES-ASM",
@@ -400,33 +398,6 @@
             "decimals": 2,
             "mappingType": 1,
             "pattern": "data.geo_location",
-            "thresholds": [],
-            "type": "string",
-            "unit": "short"
-          },
-          {
-            "alias": "Action",
-            "colorMode": null,
-            "colors": [
-              "rgba(245, 54, 54, 0.9)",
-              "rgba(237, 129, 40, 0.89)",
-              "rgba(50, 172, 45, 0.97)"
-            ],
-            "dateFormat": "YYYY-MM-DD HH:mm:ss",
-            "decimals": 2,
-            "link": true,
-            "linkTargetBlank": true,
-            "linkTooltip": "Add ${__cell_2} to Blacklist",
-            "linkUrl": "http://edgar-docker.westus2.cloudapp.azure.com:3200/store?ipaddress=${__cell_2}&netmask=32&list=bl&category=web_attacks",
-            "mappingType": 2,
-            "pattern": "data.support_id",
-            "rangeMaps": [
-              {
-                "from": "1000000000000000",
-                "text": "Blacklist",
-                "to": "1000000000000000000000"
-              }
-            ],
             "thresholds": [],
             "type": "string",
             "unit": "short"
@@ -546,6 +517,7 @@
       },
       {
         "collapsed": false,
+        "datasource": "Graphite-Stats",
         "gridPos": {
           "h": 1,
           "w": 24,
@@ -597,7 +569,7 @@
           "showThresholdLabels": false,
           "showThresholdMarkers": true
         },
-        "pluginVersion": "6.3.5",
+        "pluginVersion": "6.4.2",
         "targets": [
           {
             "refId": "A",
@@ -1047,6 +1019,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
+        "datasource": "Graphite-Stats",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -1141,6 +1114,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
+        "datasource": "Graphite-Stats",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -1232,8 +1206,8 @@
         }
       }
     ],
-    "refresh": false,
-    "schemaVersion": 19,
+    "refresh": "30s",
+    "schemaVersion": 20,
     "style": "dark",
     "tags": [
       "bigip"
@@ -1261,7 +1235,7 @@
       ]
     },
     "time": {
-      "from": "now-15m",
+      "from": "now-30m",
       "to": "now"
     },
     "timepicker": {
@@ -1292,6 +1266,6 @@
     "timezone": "",
     "title": "BIG-IP System Dashboard",
     "uid": "984maaqiu",
-    "version": 2
+    "version": 6
   }
 }

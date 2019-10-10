@@ -9,13 +9,13 @@
             "telemetry_local_rule": {
                 "remark": "Only required when TS is a local listener",
                 "class": "iRule",
-                "iRule": "when CLIENT_ACCEPTED {\n  node 127.0.0.1 6514\n}"
+                "iRule": "when CLIENT_ACCEPTED {\n  node 127.0.0.1 {{ ts_listener_port }}\n}"
             },
             "telemetry_local": {
                 "remark": "Only required when TS is a local listener",
                 "class": "Service_TCP",
-                "virtualAddresses": ["255.255.255.254"],
-                "virtualPort": 6514,
+                "virtualAddresses": ["{{ log_pool }}"],
+                "virtualPort": {{ ts_listener_port }},
                 "iRules": ["telemetry_local_rule"]
             },
             "telemetry": {
@@ -23,8 +23,8 @@
                 "members": [
                     {
                         "enable": true,
-                        "serverAddresses": ["255.255.255.254"],
-                        "servicePort": 6514
+                        "serverAddresses": ["{{ log_pool }}"],
+                        "servicePort": {{ ts_listener_port }}
                     }
                 ],
                 "monitors": [
@@ -75,8 +75,8 @@
                     "protocol": "tcp",
                     "servers": [
                         {
-                            "address": "255.255.255.254",
-                            "port": "6514"
+                            "address": "{{ log_pool }}",
+                            "port": "{{ ts_listener_port }}"
                         }
                     ],
                     "storageFilter": {
