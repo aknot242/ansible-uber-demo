@@ -8,6 +8,7 @@ do_declaration_template: "do-declaration.json"
 as3_ts_dependencies_declaration: "as3-common-declaration.json"
 as3_app_declaration_template: "as3-app-declaration.json"
 ts_declaration_template: "ts-declaration.json"
+common_declaration_output_file: "common_out.json"
 
 as3_file: "as3.rpm"
 as3_file_sha256: "{{as3_file}}.sha256"
