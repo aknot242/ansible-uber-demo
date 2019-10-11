@@ -34,6 +34,9 @@ inspec exec demo-setup -t docker://[docker container id] --input bigip_host=[hos
     - `./install-ubuntu-dependencies.sh`. This will install the linux dependencies required to run Docker and Ansible.
     - `./deploy.sh`. This will run the Ansible playbook to configure everything.
 
+## Attributions
+- Thanks to [mrlesmithjr](https://github.com/mrlesmithjr) for his [Netplan Ansible Role](https://github.com/mrlesmithjr/ansible-netplan)
+
 ## TODO:
 
 1. Git pull Ansible workbooks
