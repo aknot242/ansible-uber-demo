@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     depends_on:
       - graphite
+      - elasticsearch
     ports:
       - "3030:3000"
     # leave the following boolean env vars quoted. Known issue: https://github.com/docker/compose/issues/1788
@@ -30,6 +31,15 @@ services:
       - "8125:8125/udp"
       - "8126:8126"
       - "8080:8080"
+
+  elasticsearch:
+    image: "elasticsearch:7.3.1"
+    restart: unless-stopped
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
 
   juice_shop_app:
     image: bkimminich/juice-shop

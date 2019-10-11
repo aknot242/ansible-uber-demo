@@ -8,13 +8,22 @@
     },
     "TS_Listener": {
         "class": "Telemetry_Listener",
-        "port": 6514
+        "port": {{ ts_listener_port }}
     },
-    "My_Consumer": {
+    "Statsd_Consumer": {
         "class": "Telemetry_Consumer",
-        "type": "Graphite",
+        "type": "Statsd",
         "host": "{{ app_server_address }}",
+        "protocol": "udp",
+        "port": 8125
+    },
+    "ElasticSearch_Consumer": {
+        "class": "Telemetry_Consumer",
+        "type": "ElasticSearch",
+        "host": "{{ app_server_address }}",
+        "index": "{{ elasticsearch_index }}",
+        "port": 9200,
         "protocol": "http",
-        "port": 3400
+        "dataType": "_doc"
     }
 }

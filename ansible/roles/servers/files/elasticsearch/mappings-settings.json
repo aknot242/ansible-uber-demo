@@ -1,0 +1,12 @@
+{
+    "properties": {
+        "data": {
+            "properties": {
+                "geo_location": {
+                    "type": "text",
+                    "fielddata": true
+                }
+            }
+        }
+    }
+}
