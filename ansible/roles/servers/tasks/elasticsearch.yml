@@ -1,5 +1,5 @@
 ---
-- name: Wait for grafana to come up before configuring ElasticSearch
+- name: Wait for ElasticSearch to come up before configuring it
   uri:
     url: "{{ elasticsearch_base_url }}/"
     status_code: 200
