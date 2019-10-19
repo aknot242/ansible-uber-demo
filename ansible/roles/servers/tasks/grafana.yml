@@ -51,7 +51,7 @@
     status_code: 200
     body_format: json
   with_fileglob:
-    - "files/grafana/datasources/*.json"
+    - "{{ role_path }}/files/grafana/datasources/*.json"
 
 - name: Get all existing alert notifications
   uri:
@@ -101,7 +101,7 @@
     status_code: 200
     body_format: json
   with_fileglob:
-    - "files/grafana/dashboards/*.json"
+    - "{{ role_path }}/files/grafana/dashboards/*.json"
 
 - name: Set default dashboard
   uri:
