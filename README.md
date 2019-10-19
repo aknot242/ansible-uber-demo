@@ -2,18 +2,20 @@
 A comprehensive demonstration Ansible-based solution to quickly build and deploy an application in a public cloud using F5 and NGINX technology
 
 ## Featuring
-- Grafana
-- Graphite
-- StatsD
-- ElasticSearch
+- [F5 BIG-IP](https://www.f5.com/products/big-ip-services)
+- [Grafana](https://grafana.com/)
+- [Graphite](https://graphiteapp.org/)
+- [StatsD](https://github.com/statsd/statsd)
+- [ElasticSearch](https://www.elastic.co/products/elastic-stack)
 - [Juice Shop app](https://hub.docker.com/r/bkimminich/juice-shop/)
+- [OWASP Zed Attack Proxy (ZAP)](https://github.com/zaproxy/zaproxy)
 
 ## Dependencies
-- Ansible 2.8
-- Inspec 4.7+
+- [RedHat Ansible](https://www.ansible.com/) 2.8
+- [Chef Inspec](https://www.inspec.io/) 4.7+
 
 ## Prerequisites
-- This demo assumes an Ansible and Docker host of Ubuntu 18.04 (Bionic)
+- This demo assumes an Ansible and [Docker](https://www.docker.com/) host running on [Ubuntu](https://ubuntu.com/) release 18.04 (Bionic)
 
 ```
 docker run --rm -it willhallonline/ansible:2.8-ubuntu-18.04 /bin/sh
@@ -34,7 +36,8 @@ inspec exec demo-setup --input bigip_host=[hostname of bigip] bigip_mgmt_port=[m
     - `cd ansible-uber-demo`
     - `./install-ubuntu-dependencies.sh`. This will install the linux dependencies required to run Docker and Ansible.
     - `./deploy.sh`. This will run the Ansible playbook to configure everything.
-    - If you would like to generate traffic to the Juice Shop site, use this example command: `./run-load.sh example.com 10` . The first argument is the destination Virtual Server configured for Juice Shop. The second argument is the number of times the traffic generation script should run.
+    - If you would like to generate traffic to the Juice Shop site, use this example command from the Ubuntu server: `./run-load.sh example.com 10` . The first argument is the destination Virtual Server configured for Juice Shop. The second argument is the number of times the traffic generation script should run.
+    - To attack the Juice Shop site scanning for security vulnerabilities, use this example command from the Ubuntu server: `./run-attack.sh <full URL of Juice Shop site>` .
 
 ## Attributions
 - Thanks to [mrlesmithjr](https://github.com/mrlesmithjr) for his [Netplan Ansible Role](https://github.com/mrlesmithjr/ansible-netplan)
