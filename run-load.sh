@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo docker run -it -e "HOST=$1" -v $(pwd):/tmp --entrypoint /bin/ash har-replay '/tmp/transform-har.sh'
+sudo docker run -it -e "HOST=$1" -v $(pwd):/tmp --entrypoint /bin/ash aknot242/har-replay '/tmp/transform-har.sh'
 
 i=1
 while [[ $i -le $2 ]]
