@@ -11,6 +11,7 @@ A comprehensive demonstration Ansible-based solution to quickly build and deploy
 - [OWASP Zed Attack Proxy (ZAP)](https://github.com/zaproxy/zaproxy)
 
 ## Dependencies
+- F5 BIG-IP 14.1.0.3-0.0.6 (or greater) with LTM and ASM modules licensed
 - [RedHat Ansible](https://www.ansible.com/) 2.8
 - [Chef Inspec](https://www.inspec.io/) 4.7+
 
