@@ -5,6 +5,9 @@
                 "geo_location": {
                     "type": "text",
                     "fielddata": true
+                },
+                "date_time": {
+                    "type": "date"
                 }
             }
         }

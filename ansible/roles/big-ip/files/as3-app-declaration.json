@@ -60,7 +60,7 @@
                 },
                 "ASM_Policy": {
                     "class": "WAF_Policy",
-                    "url": "https://raw.githubusercontent.com/f5devcentral/f5-ansible-asm-example/master/roles/bigip_base_asm/files/asm-policy-linux-high.xml",
+                    "url": "https://raw.githubusercontent.com/aknot242/ansible-uber-demo/master/ansible/roles/big-ip/files/JuiceShop_ASM_Policy.xml",
                     "ignoreChanges": false
                 }
             }

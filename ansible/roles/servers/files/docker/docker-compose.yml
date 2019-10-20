@@ -1,7 +1,7 @@
 version: '3'
 services:
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:6.4.3
     restart: unless-stopped
     depends_on:
       - graphite
@@ -22,7 +22,7 @@ services:
       GF_SERVER_ROOT_URL: http://grafana.server.name:3030
 
   graphite:
-    image: "graphiteapp/graphite-statsd"
+    image: "graphiteapp/graphite-statsd:1.1.5-13"
     restart: unless-stopped
     ports:
       - "3400:80"
@@ -42,7 +42,7 @@ services:
       - discovery.type=single-node
 
   juice_shop_app:
-    image: bkimminich/juice-shop
+    image: bkimminich/juice-shop:v8.7.0
     restart: unless-stopped
     ports:
       - "3300:3000"

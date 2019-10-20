@@ -1,5 +1,5 @@
 ---
-- name: Wait for ElasticSearch to come up before configuring it
+- name: Wait for ElasticSearch to come up before configuring
   uri:
     url: "{{ elasticsearch_base_url }}/"
     status_code: 200
@@ -8,7 +8,7 @@
   retries: 20
   delay: 5
 
-- name: Check if ElasticSearch index exists
+- name: Check if ElasticSearch index {{ elasticsearch_index }} exists
   uri:
     url: "{{ elasticsearch_base_url }}/{{ elasticsearch_index }}"
     method: GET
@@ -21,19 +21,27 @@
     var: index_check
     verbosity: 2
 
-- name: Set ElasticSearch Index settings
+- name: Create {{ elasticsearch_index }} index if does not exist
   uri:
     url: "{{ elasticsearch_base_url }}/{{ elasticsearch_index }}"
     method: PUT
-    body: "{{ lookup('file','./files/elasticsearch/index-settings.json') }}"
+    body: "{}"
     status_code: 200
     body_format: json
   when: index_check.status == 404
 
-- name: ElasticSearch Mappings settings
+- name: Update {{ elasticsearch_index }} index settings
+  uri:
+    url: "{{ elasticsearch_base_url }}/{{ elasticsearch_index }}/_settings"
+    method: PUT
+    body: "{{ lookup('file','{{ role_path }}/files/elasticsearch/index-settings.json') }}"
+    status_code: 200
+    body_format: json
+
+- name: Update {{ elasticsearch_index }} mappings settings
   uri:
     url: "{{ elasticsearch_base_url }}/{{ elasticsearch_index }}/_mapping"
     method: PUT
-    body: "{{ lookup('file','./files/elasticsearch/mappings-settings.json') }}"
+    body: "{{ lookup('file','{{ role_path }}/files/elasticsearch/mappings-settings.json') }}"
     status_code: 200
     body_format: json
