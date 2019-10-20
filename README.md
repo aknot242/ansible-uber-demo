@@ -36,8 +36,8 @@ inspec exec demo-setup --input bigip_host=[hostname of bigip] bigip_mgmt_port=[m
     - `cd ansible-uber-demo`
     - `./install-ubuntu-dependencies.sh`. This will install the linux dependencies required to run Docker and Ansible.
     - `./deploy.sh`. This will run the Ansible playbook to configure everything.
-    - If you would like to generate traffic to the Juice Shop site, use this example command from the Ubuntu server: `./run-load.sh www.example.com 10` . The first argument is the destination Virtual Server configured for Juice Shop. The second argument is the number of times the traffic generation script should run.
-    - To attack the Juice Shop site scanning for security vulnerabilities, use this example command from the Ubuntu server: `./run-attack.sh <full URL of Juice Shop site>` .
+    - If you would like to generate traffic to the Juice Shop site, use this example command from the Ubuntu server: `./run-load.sh http://10.1.10.20 10` . The first argument is the destination Virtual Server configured for Juice Shop. The second argument is the number of times the traffic generation script should run.
+    - To attack the Juice Shop site scanning for security vulnerabilities, use this example command from the Ubuntu server: `./run-attack.sh http://10.1.10.20` .
 
 ## Attributions
 - Thanks to [mrlesmithjr](https://github.com/mrlesmithjr) for his [Netplan Ansible Role](https://github.com/mrlesmithjr/ansible-netplan)

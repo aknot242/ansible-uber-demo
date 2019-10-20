@@ -36,7 +36,7 @@
     "gnetId": null,
     "graphTooltip": 0,
     "id": null,
-    "iteration": 1570718305768,
+    "iteration": 1571545235396,
     "links": [],
     "panels": [
       {
@@ -77,7 +77,7 @@
           "showThresholdLabels": false,
           "showThresholdMarkers": true
         },
-        "pluginVersion": "6.4.2",
+        "pluginVersion": "6.4.3",
         "targets": [
           {
             "hide": false,
@@ -215,7 +215,7 @@
         ],
         "timeFrom": null,
         "timeShift": null,
-        "title": "Requests",
+        "title": "Juice Shop Requests",
         "transform": "json",
         "type": "table"
       },
@@ -424,7 +424,7 @@
         ],
         "timeFrom": null,
         "timeShift": null,
-        "title": "Violations",
+        "title": "Juice Shop Violations",
         "transform": "json",
         "type": "table"
       },
@@ -509,7 +509,7 @@
         "thresholds": "1,10,50",
         "timeFrom": null,
         "timeShift": null,
-        "title": "Violation Locations",
+        "title": "Juice Shop Violation Locations",
         "type": "grafana-worldmap-panel",
         "unitPlural": "",
         "unitSingle": "",
@@ -531,7 +531,22 @@
       },
       {
         "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
         "datasource": "Graphite-Stats",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
         "gridPos": {
           "h": 4,
           "w": 7,
@@ -539,48 +554,65 @@
           "y": 25
         },
         "id": 2,
+        "interval": null,
         "links": [],
-        "options": {
-          "fieldOptions": {
-            "calcs": [
-              "sum"
-            ],
-            "defaults": {
-              "decimals": null,
-              "mappings": [],
-              "max": 100,
-              "min": 0,
-              "thresholds": [
-                {
-                  "color": "#7EB26D",
-                  "value": null
-                },
-                {
-                  "color": "#E24D42",
-                  "value": 2
-                }
-              ],
-              "unit": "none"
-            },
-            "override": {},
-            "values": false
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
           },
-          "orientation": "auto",
-          "showThresholdLabels": false,
-          "showThresholdMarkers": true
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "options": {},
+        "pluginVersion": "6.4.3",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false,
+          "ymax": null,
+          "ymin": null
         },
-        "pluginVersion": "6.4.2",
+        "tableColumn": "",
         "targets": [
           {
             "refId": "A",
             "target": "stats.gauges.f5telemetry.*.httpProfiles.-Common-http.5xxResp"
           }
         ],
+        "thresholds": "",
         "timeFrom": null,
         "timeShift": null,
         "title": "5xx Errors",
         "transparent": true,
-        "type": "gauge"
+        "type": "singlestat",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
       },
       {
         "cacheTimeout": "",
@@ -646,7 +678,7 @@
         "targets": [
           {
             "refId": "A",
-            "target": "perSecond(stats.gauges.f5telemetry.*.httpProfiles.-Common-http.2xxResp)"
+            "target": "stats.gauges.f5telemetry.*.httpProfiles.-Common-http.2xxResp"
           }
         ],
         "thresholds": "",
@@ -1266,6 +1298,6 @@
     "timezone": "",
     "title": "BIG-IP System Dashboard",
     "uid": "984maaqiu",
-    "version": 6
+    "version": 2
   }
 }
