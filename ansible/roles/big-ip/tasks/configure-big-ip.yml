@@ -15,6 +15,18 @@
   delay: 5
   until: "(bigip_auth_response | success) and (bigip_auth_response.status == 200)"
 
+- name: Validate DO rest worker is ready
+  uri:
+    headers:
+      X-F5-Auth-Token: "{{bigip_auth_response.json.token.token}}"
+    method: GET
+    url: "https://{{ bigip_provider.server }}/mgmt/shared/declarative-onboarding/available"
+    validate_certs: "{{ bigip_validate_certs }}"
+  retries: 30
+  delay: 5
+  register: result
+  until: "(result | success) and (result.status == 200)"
+
 - name: Use Declarative Onboarding to Async configure BIG-IP
   uri:
     body: "{{ lookup('file','{{ tmp_dir }}/{{ do_declaration_template }}') }}"
@@ -38,8 +50,21 @@
   retries: 20
   delay: 10
 
+
 - name: Prepare the common AS3 objects declaration from the template
   template: src="{{ role_path }}/files/{{ as3_ts_dependencies_declaration }}" dest="{{ tmp_dir }}/{{ common_declaration_output_file }}"
+
+- name: Validate AS3 rest worker is ready
+  uri:
+    headers:
+      X-F5-Auth-Token: "{{bigip_auth_response.json.token.token}}"
+    method: GET
+    url: "https://{{ bigip_provider.server }}/mgmt/shared/appsvcs/available"
+    validate_certs: "{{ bigip_validate_certs }}"
+  retries: 30
+  delay: 5
+  register: result
+  until: "(result | success) and (result.status == 200)"
 
 - name: Deploy common AS3 objects for use by Telemetry Streaming
   bigip_appsvcs_extension:
@@ -65,6 +90,17 @@
 - name: Prepare the Telemetry Streaming declaration from the template
   template: src="{{ role_path }}/files/{{ ts_declaration_template }}" dest="{{ tmp_dir }}/{{ ts_declaration_template }}"
 
+- name: Validate Telemetry Streaming rest worker is ready
+  uri:
+    headers:
+      X-F5-Auth-Token: "{{bigip_auth_response.json.token.token}}"
+    method: GET
+    url: "https://{{ bigip_provider.server }}/mgmt/shared/telemetry/available"
+    validate_certs: "{{ bigip_validate_certs }}"
+  retries: 30
+  delay: 5
+  register: result
+  until: "(result | success) and (result.status == 200)"
 
 - name: Use Telemetry Streaming to configure BIG-IP
   uri:
