@@ -6,7 +6,7 @@
 
 - name: Get specific or latest AS3 version and checksum file download urls
   uri:
-    url: package_release_url
+    url: "{{ package_release_url }}"
     return_content: true
     status_code: 200
   register: as3_github_releases
