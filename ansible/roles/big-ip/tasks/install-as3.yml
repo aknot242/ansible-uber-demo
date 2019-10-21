@@ -23,7 +23,7 @@
   set_fact:
     as3_checksum: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_file_sha256 }}') | regex_search('^(\\S*)') }}"
 
-- name: Download latest AS3 RPM file with check (sha256)
+- name: Download AS3 RPM file with check (sha256)
   get_url:
     url: "{{ as3_release_url }}"
     dest: "{{ tmp_dir }}/{{ as3_file }}"

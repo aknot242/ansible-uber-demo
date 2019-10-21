@@ -23,7 +23,7 @@
   set_fact:
     do_checksum: "{{ lookup('file', '{{ tmp_dir }}/{{ do_file_sha256 }}') | regex_search('^(\\S*)') }}"
 
-- name: Download latest DO RPM file with check (sha256)
+- name: Download DO RPM file with check (sha256)
   get_url:
     url: "{{ do_latest_release_url }}"
     dest: "{{ tmp_dir }}/{{ do_file }}"
