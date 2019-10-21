@@ -1,11 +1,12 @@
 ---
-- name: Get latest DO and checksum file download urls
+- name: Get specific or latest DO version and checksum file download urls
   uri:
-    url: https://api.github.com/repos/F5Networks/f5-declarative-onboarding/releases/latest
+    url: "{{ f5_networks_github_base_url }}/f5-declarative-onboarding/releases/{{ 'latest' if do_use_latest == true else 'tags/' + do_requested_tag }}"
     return_content: true
     status_code: 200
   register: do_github_releases
   check_mode: false
+
 - set_fact:
     # weird workaround below: https://github.com/ansible/ansible/issues/27299
     do_latest_release_url: "{{ do_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.rpm`)] | [0] | browser_download_url') }}"
