@@ -1,7 +1,7 @@
 ---
 - name: Get specific or latest AS3 version and checksum file download urls
   uri:
-    url: "{{ f5_networks_github_base_url }}/f5-appsvcs-extension/releases/{{ 'latest' if as3_use_latest == 'true' else 'tags/' + as3_requested_tag }}"
+    url: "{{ f5_networks_github_base_url }}/f5-appsvcs-extension/releases/{{ 'latest' if as3_use_latest == true else 'tags/' + as3_requested_tag }}"
     return_content: true
     status_code: 200
   register: as3_github_releases
