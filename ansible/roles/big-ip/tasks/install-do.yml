@@ -1,7 +1,12 @@
 ---
+
+- name: Set DO release url
+  set_fact:
+    package_release_url: "{{ f5_networks_github_base_url }}/f5-declarative-onboarding/releases/{{ 'latest' if do_use_latest == true else 'tags/' + do_requested_tag }}"
+
 - name: Get specific or latest DO version and checksum file download urls
   uri:
-    url: "{{ f5_networks_github_base_url }}/f5-declarative-onboarding/releases/{{ 'latest' if do_use_latest == true else 'tags/' + do_requested_tag }}"
+    url: package_release_url
     return_content: true
     status_code: 200
   register: do_github_releases

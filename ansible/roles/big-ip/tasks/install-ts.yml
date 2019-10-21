@@ -1,7 +1,12 @@
 ---
+
+- name: Set TS release url
+  set_fact:
+    package_release_url: "{{ f5_networks_github_base_url }}/f5-telemetry-streaming/releases/{{ 'latest' if ts_use_latest == true else 'tags/' + ts_requested_tag }}"
+
 - name: Get specific or latest TS version and checksum file download urls
   uri:
-    url: "{{ f5_networks_github_base_url }}/f5-telemetry-streaming/releases/{{ 'latest' if ts_use_latest == true else 'tags/' + ts_requested_tag }}"
+    url: package_release_url
     return_content: true
     status_code: 200
   register: ts_github_releases
