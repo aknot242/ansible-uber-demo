@@ -12,6 +12,10 @@
     as3_release_url: "{{ as3_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.rpm`)] | [0] | browser_download_url') }}"
     as3_release_checksum_url: "{{ as3_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.sha256`)] | [0] | browser_download_url') }}"
 
+- debug:
+    var: as3_release_url
+    verbosity: 2
+
 - name: Download AS3 checksum file (sha256)
   get_url:
     url: "{{ as3_release_checksum_url }}"

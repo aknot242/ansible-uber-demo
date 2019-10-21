@@ -9,12 +9,16 @@
 
 - set_fact:
     # weird workaround below: https://github.com/ansible/ansible/issues/27299
-    ts_latest_release_url: "{{ ts_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.rpm`)] | [0] | browser_download_url') }}"
-    ts_latest_release_checksum_url: "{{ ts_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.sha256`)] | [0] | browser_download_url') }}"
+    ts_release_url: "{{ ts_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.rpm`)] | [0] | browser_download_url') }}"
+    ts_release_checksum_url: "{{ ts_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.sha256`)] | [0] | browser_download_url') }}"
+
+- debug:
+    var: ts_release_url
+    verbosity: 2
 
 - name: Download TS checksum file (sha256)
   get_url:
-    url: "{{ ts_latest_release_checksum_url }}"
+    url: "{{ ts_release_checksum_url }}"
     dest: "{{ tmp_dir }}/{{ ts_file_sha256 }}"
     force: true
   check_mode: false
@@ -25,7 +29,7 @@
 
 - name: Download TS RPM file with check (sha256)
   get_url:
-    url: "{{ ts_latest_release_url }}"
+    url: "{{ ts_release_url }}"
     dest: "{{ tmp_dir }}/{{ ts_file }}"
     checksum: "sha256:{{ ts_checksum }}"
     force: true

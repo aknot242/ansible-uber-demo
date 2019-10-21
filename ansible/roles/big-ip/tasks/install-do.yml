@@ -9,12 +9,16 @@
 
 - set_fact:
     # weird workaround below: https://github.com/ansible/ansible/issues/27299
-    do_latest_release_url: "{{ do_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.rpm`)] | [0] | browser_download_url') }}"
-    do_latest_release_checksum_url: "{{ do_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.sha256`)] | [0] | browser_download_url') }}"
+    do_release_url: "{{ do_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.rpm`)] | [0] | browser_download_url') }}"
+    do_release_checksum_url: "{{ do_github_releases.json | to_json | from_json | json_query('assets[?ends_with(name, `.sha256`)] | [0] | browser_download_url') }}"
+
+- debug:
+    var: do_release_url
+    verbosity: 2
 
 - name: Download DO checksum file (sha256)
   get_url:
-    url: "{{ do_latest_release_checksum_url }}"
+    url: "{{ do_release_checksum_url }}"
     dest: "{{ tmp_dir }}/{{ do_file_sha256 }}"
     force: true
   check_mode: false
@@ -25,7 +29,7 @@
 
 - name: Download DO RPM file with check (sha256)
   get_url:
-    url: "{{ do_latest_release_url }}"
+    url: "{{ do_release_url }}"
     dest: "{{ tmp_dir }}/{{ do_file }}"
     checksum: "sha256:{{ do_checksum }}"
     force: true
