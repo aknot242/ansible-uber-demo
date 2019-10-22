@@ -80,15 +80,15 @@ The following are the actual steps needed to execute the demo:
 
 1. Boot up images
 2. Ssh into BIG-IP and run the following
-    1. tmsh
-    2. modify auth user admin prompt-for-password
-    3. save sys config
-    4. Quit
+    1. `tmsh`
+    2. `modify auth user admin prompt-for-password`
+    3. `save sys config`
+    4. `quit`
 3. Ssh into Ubuntu server and run the following
-    1. git clone https://github.com/aknot242/ansible-uber-demo.git
-    2. cd ansible-uber-demo
-    3. Set password in host vars file: nano ansible/host_vars/10.1.1.4.yml 
-    4. Run ./install-ubuntu-dependencies.sh
-    5. Run ./deploy.sh
-    6. Run load script ./run-load.sh http://10.1.10.20 10
-    7. Run attack script  ./run-attack.sh http://10.1.10.20
+    1. `git clone https://github.com/aknot242/ansible-uber-demo.git`
+    2. `cd ansible-uber-demo`
+    3. Set password in host vars file: `nano ansible/host_vars/10.1.1.4.yml` 
+    4. Run `./install-ubuntu-dependencies.sh`
+    5. Run `./deploy.sh`
+    6. Run `load script ./run-load.sh http://10.1.10.20 10`
+    7. Run `attack script  ./run-attack.sh http://10.1.10.20`
