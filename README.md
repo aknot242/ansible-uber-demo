@@ -90,5 +90,5 @@ The following are the actual steps needed to execute the demo:
     3. Set password in host vars file: `nano ansible/host_vars/10.1.1.4.yml` 
     4. Run `./install-ubuntu-dependencies.sh`
     5. Run `./deploy.sh`
-    6. Run `load script ./run-load.sh http://10.1.10.20 10`
-    7. Run `attack script  ./run-attack.sh http://10.1.10.20`
+    6. Run load script: `./run-load.sh http://10.1.10.20 10`
+    7. Run attack script: `./run-attack.sh http://10.1.10.20`
