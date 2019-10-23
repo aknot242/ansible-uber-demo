@@ -3,8 +3,6 @@
   template:
     src: "{{ role_path }}/templates/{{ do_declaration_template }}"
     dest: "{{ tmp_dir }}/{{ do_declaration_template | regex_replace('\\.j2','.json') }}"
-  tags:
-    - transform
 
 - name: Get BIG-IP Authentication Token from BIG-IP
   uri:
@@ -59,8 +57,6 @@
   template:
     src: "{{ role_path }}/templates/{{ as3_ts_dependencies_template }}"
     dest: "{{ tmp_dir }}/{{ as3_ts_dependencies_template | regex_replace('\\.j2','.json') }}"
-  tags:
-    - transform
 
 - name: Validate AS3 rest worker is ready
   uri:
@@ -87,8 +83,6 @@
   template:
     src: "{{ role_path }}/templates/{{ as3_app_declaration_template }}"
     dest: "{{ tmp_dir }}/{{ as3_app_declaration_template | regex_replace('\\.j2','.json') }}"
-  tags:
-    - transform
 
 - name: Deploy an app service configuration
   bigip_appsvcs_extension:
@@ -103,8 +97,6 @@
   template:
     src: "{{ role_path }}/templates/{{ ts_declaration_template }}"
     dest: "{{ tmp_dir }}/{{ ts_declaration_template | regex_replace('\\.j2','.json') }}"
-  tags:
-    - transform
 
 - name: Validate Telemetry Streaming rest worker is ready
   uri:
