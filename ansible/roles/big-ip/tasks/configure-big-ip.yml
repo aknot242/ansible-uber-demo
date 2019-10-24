@@ -20,7 +20,7 @@
 - name: Validate DO rest worker is ready
   uri:
     headers:
-      X-F5-Auth-Token: "{{bigip_auth_response.json.token.token}}"
+      X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     method: GET
     url: "https://{{ bigip_provider.server }}/mgmt/shared/declarative-onboarding/available"
     validate_certs: "{{ bigip_validate_certs }}"
@@ -29,12 +29,16 @@
   register: result
   until: "(result | success) and (result.status == 200)"
 
+- name: Assemble Declarative Onboarding body filename
+  set_fact:
+    do_declaration_filename: "{{ do_declaration_template | regex_replace('\\.j2','.json') }}"
+
 - name: Use Declarative Onboarding to Async configure BIG-IP
   uri:
-    body: "{{ lookup('file','{{ tmp_dir }}/{{ do_declaration_template | regex_replace('\\.j2','.json') }}') }}"
+    body: "{{ lookup('file','{{ tmp_dir }}/{{ do_declaration_filename }}') }}"
     body_format: json
     headers:
-      X-F5-Auth-Token: "{{bigip_auth_response.json.token.token}}"
+      X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     method: POST
     status_code: 202
     url: "https://{{ bigip_provider.server }}/mgmt/shared/declarative-onboarding"
@@ -45,7 +49,7 @@
     url: "https://{{ bigip_provider.server }}/mgmt/shared/declarative-onboarding"
     status_code: 200
     headers:
-      X-F5-Auth-Token: "{{bigip_auth_response.json.token.token}}"
+      X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     validate_certs: "{{ bigip_validate_certs }}"
   register: result
   until: result.status == 200
@@ -61,7 +65,7 @@
 - name: Validate AS3 rest worker is ready
   uri:
     headers:
-      X-F5-Auth-Token: "{{bigip_auth_response.json.token.token}}"
+      X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     method: GET
     url: "https://{{ bigip_provider.server }}/mgmt/shared/appsvcs/available"
     validate_certs: "{{ bigip_validate_certs }}"
@@ -101,7 +105,7 @@
 - name: Validate Telemetry Streaming rest worker is ready
   uri:
     headers:
-      X-F5-Auth-Token: "{{bigip_auth_response.json.token.token}}"
+      X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     method: GET
     url: "https://{{ bigip_provider.server }}/mgmt/shared/telemetry/available"
     validate_certs: "{{ bigip_validate_certs }}"
@@ -115,7 +119,7 @@
     body: "{{ lookup('file','{{ tmp_dir }}/{{ ts_declaration_template | regex_replace('\\.j2','.json') }}') }}"
     body_format: json
     headers:
-      X-F5-Auth-Token: "{{bigip_auth_response.json.token.token}}"
+      X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     method: POST
     status_code: 200
     url: "https://{{ bigip_provider.server }}/mgmt/shared/telemetry/declare"
@@ -126,7 +130,7 @@
     url: "https://{{ bigip_provider.server }}/mgmt/shared/authz/tokens/{{ bigip_auth_response.json.token.token }}"
     method: DELETE
     headers:
-      X-F5-Auth-Token: "{{bigip_auth_response.json.token.token}}"
+      X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     status_code: 200
     validate_certs: "{{ bigip_validate_certs }}"
   register: bigip_auth_response
