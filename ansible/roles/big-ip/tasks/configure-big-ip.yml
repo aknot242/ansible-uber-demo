@@ -1,8 +1,8 @@
 ---
 - name: Prepare the DO declaration from the template
   template:
-    src: "{{ role_path }}/templates/{{ do_declaration_template }}"
-    dest: "{{ tmp_dir }}/{{ do_declaration_template | regex_replace('\\.j2','.json') }}"
+    src: "{{ role_path }}/templates/{{ do_template }}"
+    dest: "{{ tmp_dir }}/{{ do_declaration }}"
 
 - name: Get BIG-IP Authentication Token from BIG-IP
   uri:
@@ -29,13 +29,9 @@
   register: result
   until: "(result | success) and (result.status == 200)"
 
-- name: Assemble Declarative Onboarding filename
-  set_fact:
-    do_declaration_filename: "{{ do_declaration_template | regex_replace('\\.j2','.json') }}"
-
 - name: Use Declarative Onboarding to Async configure BIG-IP
   uri:
-    body: "{{ lookup('file','{{ tmp_dir }}/{{ do_declaration_filename }}') }}"
+    body: "{{ lookup('file','{{ tmp_dir }}/{{ do_declaration }}') }}"
     body_format: json
     headers:
       X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
@@ -60,7 +56,7 @@
 - name: Prepare the common AS3 objects declaration from the template
   template:
     src: "{{ role_path }}/templates/{{ as3_ts_dependencies_template }}"
-    dest: "{{ tmp_dir }}/{{ as3_ts_dependencies_template | regex_replace('\\.j2','.json') }}"
+    dest: "{{ tmp_dir }}/{{ as3_ts_dependencies_declaration }}"
 
 - name: Validate AS3 rest worker is ready
   uri:
@@ -74,31 +70,23 @@
   register: result
   until: "(result | success) and (result.status == 200)"
 
-- name: Assemble AS3 common filename
-  set_fact:
-    as3_common_declaration_filename: "{{ as3_ts_dependencies_template | regex_replace('\\.j2','.json') }}"
-
 - name: Deploy common AS3 objects for use by Telemetry Streaming
   bigip_appsvcs_extension:
-    content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_common_declaration_filename }}') }}"
+    content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_ts_dependencies_declaration }}') }}"
     state: present
     provider: "{{ bigip_provider }}"
     validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
 
 
-- name: Prepare the AS3 declaration from the template
+- name: Prepare the AS3 Juice Shop application declaration from the template
   template:
-    src: "{{ role_path }}/templates/{{ as3_app_declaration_template }}"
-    dest: "{{ tmp_dir }}/{{ as3_app_declaration_template | regex_replace('\\.j2','.json') }}"
+    src: "{{ role_path }}/templates/{{ as3_app_template }}"
+    dest: "{{ tmp_dir }}/{{ as3_app_declaration }}"
 
-- name: Assemble AS3 app service body filename
-  set_fact:
-    as3_declaration_filename: "{{ as3_ts_dependencies_template | regex_replace('\\.j2','.json') }}"
-
-- name: Deploy an app service configuration
+- name: Deploy the Juice Shop app service configuration
   bigip_appsvcs_extension:
-    content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_declaration_filename }}') }}"
+    content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_app_declaration }}') }}"
     state: present
     provider: "{{ bigip_provider }}"
     validate_certs: "{{ bigip_validate_certs }}"
@@ -107,8 +95,8 @@
 
 - name: Prepare the Telemetry Streaming declaration from the template
   template:
-    src: "{{ role_path }}/templates/{{ ts_declaration_template }}"
-    dest: "{{ tmp_dir }}/{{ ts_declaration_template | regex_replace('\\.j2','.json') }}"
+    src: "{{ role_path }}/templates/{{ ts_template }}"
+    dest: "{{ tmp_dir }}/{{ ts_declaration }}"
 
 - name: Validate Telemetry Streaming rest worker is ready
   uri:
@@ -122,13 +110,9 @@
   register: result
   until: "(result | success) and (result.status == 200)"
 
-- name: Assemble Telemetry Streaming filename
-  set_fact:
-    ts_declaration_filename: "{{ ts_declaration_template | regex_replace('\\.j2','.json') }}"
-
 - name: Use Telemetry Streaming to configure BIG-IP
   uri:
-    body: "{{ lookup('file','{{ tmp_dir }}/{{ ts_declaration_filename }}') }}"
+    body: "{{ lookup('file','{{ tmp_dir }}/{{ ts_declaration }}') }}"
     body_format: json
     headers:
       X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
