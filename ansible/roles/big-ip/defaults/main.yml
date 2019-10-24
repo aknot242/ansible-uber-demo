@@ -4,11 +4,10 @@ ts_listener_port: 6514
 log_pool: 10.1.20.9
 
 tmp_dir: "{{role_path}}/files/tmp"
-do_declaration_template: "do-declaration.json"
-as3_ts_dependencies_declaration: "as3-common-declaration.json"
-as3_app_declaration_template: "as3-app-declaration.json"
-ts_declaration_template: "ts-declaration.json"
-common_declaration_output_file: "common_out.json"
+do_declaration_template: "do-declaration.j2"
+as3_ts_dependencies_template: "as3-common-declaration.j2"
+as3_app_declaration_template: "as3-app-declaration.j2"
+ts_declaration_template: "ts-declaration.j2"
 f5_networks_github_base_url: "https://api.github.com/repos/F5Networks"
 
 as3_file: "as3.rpm"

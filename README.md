@@ -92,3 +92,35 @@ The following are the actual steps needed to execute the demo:
     5. Run `./deploy.sh`
     6. Run load script: `./run-load.sh http://10.1.10.20 10`
     7. Run attack script: `./run-attack.sh http://10.1.10.20`
+
+## Variable Reference
+Variables can be overriden in a number of locations in the playbooks. Primarily, the variables are set in the [inventory.yml](ansible/inventory.yml) file. To learn about variable precendence in Ansible, see [this article](https://subscription.packtpub.com/book/networking_and_servers/9781787125681/1/ch01lvl1sec13/variable-precedence).
+
+### Common variables (applied to all hosts in inventory)
+| Variable Name | Description | Required |
+|---------------------|---|:-:|
+| app_server_address  | The address that is assigned to both the Ubuntu server's <br />eth1 interface as well as the Juice Shop Virtual Server pool member. |*|
+
+
+### ***Server*** host variables
+| Variable Name            | Description | Required |
+|--------------------------|---|:-:|
+| ansible_connection       | Instructs ansible to suppress the use of ssh when <br />connecting to this host. More info [here](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html). |*|
+| app_server_gateway       | The gateway address to be used when creating the addition <br />interface on the Ububtu server |*|
+
+
+### ***BIG-IP*** host variables
+| Variable Name            | Description | Required |
+|--------------------------|---|:-:|
+| bigip_provider           | BIG-IP management connection information. <br />Documented [here](https://docs.ansible.com/ansible/latest/modules/bigip_appsvcs_extension_module.html#bigip-appsvcs-extension-module).|*|
+| bigip_validate_certs     | Determines whether or not a TLS certificate is validated <br />when connecting to the BIG-IP's management API for the scope of the Ansible plays. |*|
+| bigip_domain             | Used when building the FQDN portion of the BIG-IP host <br />name as well as the DNS search suffix. |*|
+| bigip_hostname           | Fully qualified host name of the BIG-IP. |*|
+| bigip_ntp_server         | A comma-separated double-quoted list of NTP servers that the BIG-IP should use. |*|
+| bigip_ntp_timezone       | The name of the NTP timezone. See the ***TZ database name*** <br /> column on [this page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for examples. |*|
+| bigip_dns_server         | A quoted IP address of your DNS server. |*|
+| bigip_dns_search         | The DNS search domain. |*|
+| bigip_external_self_ip   | The BIG-IPs self-ip address on the external interface. |*|
+| bigip_internal_self_ip   | The BIG-IPs self-ip address on the internal interface. |*|
+| app_virtual_address      | The IP address of the Juice Shop Virtual Server that will be created. |*|
+| bigip_license            | The license key for the BIG-IP. If not specified, <br />the BIG-IP will not be licensed when the playbook runs. ||

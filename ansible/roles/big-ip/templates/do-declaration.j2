@@ -6,6 +6,14 @@
     "Common": {
         "class": "Tenant",
         "hostname": "{{ bigip_hostname }}",
+{% if bigip_license is defined and bigip_license|length  %}
+        "myLicense": {
+            "class": "License",
+            "licenseType": "regKey",
+            "regKey": "{{ bigip_license }}",
+            "overwrite": true
+        },
+{% endif %}
         "myDns": {
             "class": "DNS",
             "nameServers": [

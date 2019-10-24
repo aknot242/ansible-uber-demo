@@ -26,3 +26,6 @@ all:
           bigip_external_self_ip: "10.1.10.241/24"
           bigip_internal_self_ip: "10.1.20.241/24"
           app_virtual_address: "10.1.10.20"
+
+          # BIG-IP license key. Only declare this variable if you desire the licensing task in Declarative Onboarding to run.
+          # bigip_license: "AAAAA-BBBBB-CCCCC-DDDDD-EEEEEEE"
