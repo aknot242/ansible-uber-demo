@@ -27,6 +27,7 @@
     - rpm
     - python-jmespath
     - docker.io
+    - pip3
 
 - name: Make sure Docker service is running and set to automatically start on boot
   systemd:
@@ -43,5 +44,3 @@
     name: ansible-netplan
   become: true
 
-- name: Force netplan apply (ansible-netplan does not seem to be doing it)
-  raw: sudo netplan apply
