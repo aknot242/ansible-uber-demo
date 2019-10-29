@@ -27,7 +27,6 @@
     - rpm
     - python-jmespath
     - docker.io
-    - pip3
 
 - name: Make sure Docker service is running and set to automatically start on boot
   systemd:
