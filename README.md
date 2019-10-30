@@ -35,6 +35,7 @@ inspec exec demo-setup --input bigip_host=[hostname of bigip] bigip_mgmt_port=[m
 - ssh into your Ubuntu 18.04 docker container and execute the following:
     - `scp -i /path/to/privatekeyfile /path/to/privatekeyfile ubuntu@<ubuntuserver>:~/privatekeyfile`
     - `git clone https://github.com/mjmenger/ansible-uber-demo.git`
+    - `cp ~/inventory.yml ~/ansible-uber-demo/ansible/inventory.yml`
     - `cd ansible-uber-demo`
     - `./install-ubuntu-dependencies.sh`. This will install the linux dependencies required to run Docker and Ansible.
     - `./deploy.sh`. This will run the Ansible playbook to configure everything.
