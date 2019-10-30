@@ -1,7 +1,7 @@
 ---
 - name: "Restart grafana container"
   docker_compose:
-    project_src: "{{ role_path }}/files/docker"
+    project_src: "~/"
     services: grafana
     restarted: true
     state: present
