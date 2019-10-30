@@ -28,7 +28,7 @@
 
 - name: copy docker-compose to docker host                                         
   copy:
-    src: {{ role_path }}/files/docker/docker-compose.yml
+    src: "{{ role_path }}/files/docker/docker-compose.yml"
     dest: ~/docker-compose.yml
 
 - name: Tear down existing services
