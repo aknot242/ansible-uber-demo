@@ -33,7 +33,7 @@ inspec exec demo-setup --input bigip_host=[hostname of bigip] bigip_mgmt_port=[m
 
 ## Usage
 - ssh into your Ubuntu 18.04 docker container and execute the following:
-    - `scp -i /path/to/privatekeyfile /path/to/privatekeyfile ubuntu@<ubuntuserver>:~/privatekeyfile`
+    - `scp -i <path to privatekeyfile> ubuntu@<ubuntuserver>:~/privatekeyfile`
     - `git clone https://github.com/mjmenger/ansible-uber-demo.git`
     - `cp ~/inventory.yml ~/ansible-uber-demo/ansible/inventory.yml`
     - `cd ansible-uber-demo`
@@ -96,7 +96,7 @@ The following are the actual steps needed to execute the demo:
     7. Run attack script: `./run-attack.sh http://10.1.10.20`
 
 ## Variable Reference
-Variables can be overriden in a number of locations in the playbooks. Primarily, the variables are set in the [inventory.yml](ansible/inventory.yml) file. To learn about variable precendence in Ansible, see [this article](https://subscription.packtpub.com/book/networking_and_servers/9781787125681/1/ch01lvl1sec13/variable-precedence).
+Variables can be overridden in a number of locations in the playbooks. Primarily, the variables are set in the [inventory.yml](ansible/inventory.yml) file. To learn about variable precendence in Ansible, see the [user guide](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable).
 
 ### Common variables (applied to all hosts in inventory)
 | Variable Name | Description | Required |
@@ -124,5 +124,6 @@ Variables can be overriden in a number of locations in the playbooks. Primarily,
 | bigip_dns_search         | The DNS search domain. |*|
 | bigip_external_self_ip   | The BIG-IPs self-ip address on the external interface. |*|
 | bigip_internal_self_ip   | The BIG-IPs self-ip address on the internal interface. |*|
-| app_virtual_address      | The IP address of the Juice Shop Virtual Server that will be created. |*|
+| juiceshop_virtual_address| The IP address of the Juice Shop Virtual Server that will be created. |*|
+| grafana_virtual_address  | The IP address of the Grafana Virtual Server that will be created. |*|
 | bigip_license            | The license key for the BIG-IP. If not specified, <br />the BIG-IP will not be licensed when the playbook runs. ||
