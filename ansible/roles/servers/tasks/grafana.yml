@@ -53,43 +53,6 @@
   with_fileglob:
     - "{{ role_path }}/files/grafana/datasources/*.json"
 
-- name: Get all existing alert notifications
-  uri:
-    url: "{{ grafana_base_url }}/api/alert-notifications"
-    user: "{{ grafana_username }}"
-    password: "{{ grafana_password }}"
-    method: GET
-    force_basic_auth: true
-    status_code: 200
-  register: grafana_alert_notifications
-
-- name: Create alert notifications list from json
-  set_fact:
-    grafana_alert_notifications_list: "{{ grafana_alert_notifications.json | json_query('[*].uid') }}"
-      
-- name: Delete all existing alert notifications
-  uri:
-    url: "{{ grafana_base_url }}/api/alert-notifications/uid/{{ item }}"
-    user: "{{ grafana_username }}"
-    password: "{{ grafana_password }}"
-    method: DELETE
-    force_basic_auth: true
-    status_code: 200
-  loop: "{{ grafana_alert_notifications_list }}"
-
-# - name: Create grafana alert notifications
-#   uri:
-#     url: "{{ grafana_base_url }}/api/alert-notifications"
-#     user: "{{ grafana_username }}"
-#     password: "{{ grafana_password }}"
-#     method: POST
-#     body: "{{ lookup('file', item) }}"
-#     force_basic_auth: true
-#     status_code: 200
-#     body_format: json
-#   with_fileglob:
-#     - "files/grafana/alert-notifications/*.json"
-
 - name: Create grafana dashboard
   uri:
     url: "{{ grafana_base_url }}/api/dashboards/db"
