@@ -38,9 +38,3 @@
 - name: Install Docker Compose Module for Python
   pip:
     name: docker-compose
-
-- name: Create new network interface
-  import_role:
-    name: ansible-netplan
-  become: true
-

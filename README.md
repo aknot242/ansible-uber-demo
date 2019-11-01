@@ -101,7 +101,7 @@ Variables can be overridden in a number of locations in the playbooks. Primarily
 ### Common variables (applied to all hosts in inventory)
 | Variable Name | Description | Required |
 |---------------------|---|:-:|
-| app_server_address  | The address that is assigned to both the Ubuntu server's <br />eth1 interface as well as the Juice Shop Virtual Server pool member. |*|
+| app_server_address  | The address that is assigned to the Juice Shop and Grafana Virtual Server pool member. |*|
 
 
 ### ***Server*** host variables
