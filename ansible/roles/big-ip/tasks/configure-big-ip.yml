@@ -15,7 +15,7 @@
   register: bigip_auth_response
   retries: 30
   delay: 5
-  until: "(bigip_auth_response | success) and (bigip_auth_response.status == 200)"
+  until: "(bigip_auth_response is successful) and (bigip_auth_response.status == 200)"
 
 - name: Validate DO rest worker is ready
   uri:
@@ -27,7 +27,7 @@
   retries: 30
   delay: 5
   register: result
-  until: "(result | success) and (result.status == 200)"
+  until: "(result is successful) and (result.status == 200)"
 
 - name: Use Declarative Onboarding to Async configure BIG-IP
   uri:
@@ -68,7 +68,7 @@
   retries: 30
   delay: 5
   register: result
-  until: "(result | success) and (result.status == 200)"
+  until: "(result is successful) and (result.status == 200)"
 
 - name: Deploy common AS3 objects for use by Telemetry Streaming
   bigip_appsvcs_extension:
@@ -108,7 +108,7 @@
   retries: 30
   delay: 5
   register: result
-  until: "(result | success) and (result.status == 200)"
+  until: "(result is successful) and (result.status == 200)"
 
 - name: Use Telemetry Streaming to configure BIG-IP
   uri:
