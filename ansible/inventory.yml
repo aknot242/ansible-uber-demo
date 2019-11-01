@@ -28,6 +28,7 @@ all:
           bigip_internal_self_ip: "10.1.20.241/24"
           juiceshop_virtual_address: "10.1.10.20"
           grafana_virtual_address: "10.1.10.21"
+          log_pool: 10.1.20.9
 
           # BIG-IP license key. Only declare this variable if you desire the licensing task in Declarative Onboarding to run.
           # bigip_license: "AAAAA-BBBBB-CCCCC-DDDDD-EEEEEEE"

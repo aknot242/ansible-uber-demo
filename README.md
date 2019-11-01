@@ -126,4 +126,5 @@ Variables can be overridden in a number of locations in the playbooks. Primarily
 | bigip_internal_self_ip   | The BIG-IPs self-ip address on the internal interface. |*|
 | juiceshop_virtual_address| The IP address of the Juice Shop Virtual Server that will be created. |*|
 | grafana_virtual_address  | The IP address of the Grafana Virtual Server that will be created. |*|
-| bigip_license            | The license key for the BIG-IP. If not specified, <br />the BIG-IP will not be licensed when the playbook runs. ||
+| log_pool                 | The IP address of the Virtual Server and looging pool that the LTM Request Policy and ASM Logs will target.<br /> Recommended to use an IP address on the Internal network, as it is not needed to be accessed publically. |*|
+| bigip_license            | The license key for the BIG-IP. If not specified, the BIG-IP will not be licensed when the playbook runs. ||
