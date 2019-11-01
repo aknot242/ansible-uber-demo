@@ -75,7 +75,6 @@
     content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_ts_dependencies_declaration }}') }}"
     state: present
     provider: "{{ bigip_provider }}"
-    validate_certs: "{{ bigip_provider.validate_certs }}"
   delegate_to: localhost
 
 
@@ -89,7 +88,6 @@
     content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_app_declaration }}') }}"
     state: present
     provider: "{{ bigip_provider }}"
-    validate_certs: "{{ bigip_provider.validate_certs }}"
   delegate_to: localhost
 
 
