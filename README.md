@@ -33,9 +33,10 @@ inspec exec demo-setup --input bigip_host=[hostname of bigip] bigip_mgmt_port=[m
 
 ## Usage
 - ssh into your Ubuntu 18.04 docker container and execute the following:
-    - `scp -i /path/to/privatekeyfile /path/to/privatekeyfile ubuntu@<ubuntuserver>:~/privatekeyfile`
-    - `git clone https://github.com/mjmenger/ansible-uber-demo.git`	
+    - `scp -i <path to privatekeyfile> ubuntu@<ubuntuserver>:~/privatekeyfile`
+    - `git clone https://github.com/mjmenger/ansible-uber-demo.git`
     - `cp ~/inventory.yml ~/ansible-uber-demo/ansible/inventory.yml`
+    - `cd ansible-uber-demo`
     - `./install-ubuntu-dependencies.sh`. This will install the linux dependencies required to run Docker and Ansible.
     - `./deploy.sh`. This will run the Ansible playbook to configure everything.
     - If you would like to generate traffic to the Juice Shop site, use this example command from the Ubuntu server: `./run-load.sh http://10.1.10.20 10` . The first argument is the destination Virtual Server configured for Juice Shop. The second argument is the number of times the traffic generation script should run.
