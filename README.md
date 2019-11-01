@@ -12,7 +12,7 @@ A comprehensive demonstration Ansible-based solution to quickly build and deploy
 
 ## Dependencies
 - F5 BIG-IP 14.1.0.3-0.0.6 (or greater) with LTM and ASM modules licensed
-- [RedHat Ansible](https://www.ansible.com/) 2.7+
+- [RedHat Ansible](https://www.ansible.com/) 2.8
 - [Chef Inspec](https://www.inspec.io/) 4.7+
 
 ## Prerequisites
@@ -33,9 +33,7 @@ inspec exec demo-setup --input bigip_host=[hostname of bigip] bigip_mgmt_port=[m
 
 ## Usage
 - ssh into your Ubuntu 18.04 docker container and execute the following:
-    - `scp -i /path/to/privatekeyfile /path/to/privatekeyfile ubuntu@<ubuntuserver>:~/privatekeyfile`
-    - `git clone https://github.com/mjmenger/ansible-uber-demo.git`
-    - `cp ~/inventory.yml ~/ansible-uber-demo/ansible/inventory.yml`
+    - `git clone https://github.com/aknot242/ansible-uber-demo.git`
     - `cd ansible-uber-demo`
     - `./install-ubuntu-dependencies.sh`. This will install the linux dependencies required to run Docker and Ansible.
     - `./deploy.sh`. This will run the Ansible playbook to configure everything.
@@ -96,7 +94,7 @@ The following are the actual steps needed to execute the demo:
     7. Run attack script: `./run-attack.sh http://10.1.10.20`
 
 ## Variable Reference
-Variables can be overriden in a number of locations in the playbooks. Primarily, the variables are set in the [inventory.yml](ansible/inventory.yml) file. To learn about variable precendence in Ansible, see the [user guide](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable).
+Variables can be overridden in a number of locations in the playbooks. Primarily, the variables are set in the [inventory.yml](ansible/inventory.yml) file. To learn about variable precendence in Ansible, see the [user guide](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable).
 
 ### Common variables (applied to all hosts in inventory)
 | Variable Name | Description | Required |
@@ -115,6 +113,7 @@ Variables can be overriden in a number of locations in the playbooks. Primarily,
 | Variable Name            | Description | Required |
 |--------------------------|---|:-:|
 | bigip_provider           | BIG-IP management connection information. <br />Documented [here](https://docs.ansible.com/ansible/latest/modules/bigip_appsvcs_extension_module.html#bigip-appsvcs-extension-module).|*|
+| bigip_validate_certs     | Determines whether or not a TLS certificate is validated <br />when connecting to the BIG-IP's management API for the scope of the Ansible plays. |*|
 | bigip_domain             | Used when building the FQDN portion of the BIG-IP host <br />name as well as the DNS search suffix. |*|
 | bigip_hostname           | Fully qualified host name of the BIG-IP. |*|
 | bigip_ntp_server         | A comma-separated double-quoted list of NTP servers that the BIG-IP should use. |*|
@@ -123,5 +122,6 @@ Variables can be overriden in a number of locations in the playbooks. Primarily,
 | bigip_dns_search         | The DNS search domain. |*|
 | bigip_external_self_ip   | The BIG-IPs self-ip address on the external interface. |*|
 | bigip_internal_self_ip   | The BIG-IPs self-ip address on the internal interface. |*|
-| app_virtual_address      | The IP address of the Juice Shop Virtual Server that will be created. |*|
+| juiceshop_virtual_address| The IP address of the Juice Shop Virtual Server that will be created. |*|
+| grafana_virtual_address  | The IP address of the Grafana Virtual Server that will be created. |*|
 | bigip_license            | The license key for the BIG-IP. If not specified, <br />the BIG-IP will not be licensed when the playbook runs. ||

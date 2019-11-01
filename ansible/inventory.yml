@@ -19,14 +19,15 @@ all:
             password: admin
             validate_certs: false
           bigip_domain: "us-west-2.compute.internal"
-          bigip_hostname: "ip-{{ inventory_hostname | replace('.', '-')}}.{{ bigip_domain }}"
+          bigip_hostname: "ip-{{ inventory_hostname_short | replace('.', '-')}}.{{ bigip_domain }}"
           bigip_ntp_server: "\"0.pool.ntp.org\", \"1.pool.ntp.org\""
           bigip_ntp_timezone: "America/Los_Angeles"
           bigip_dns_server: "\"10.1.255.254\""
           bigip_dns_search: "\"{{ bigip_domain }}\""
           bigip_external_self_ip: "10.1.10.241/24"
           bigip_internal_self_ip: "10.1.20.241/24"
-          app_virtual_address: "10.1.10.20"
+          juiceshop_virtual_address: "10.1.10.20"
+          grafana_virtual_address: "10.1.10.21"
 
           # BIG-IP license key. Only declare this variable if you desire the licensing task in Declarative Onboarding to run.
           # bigip_license: "AAAAA-BBBBB-CCCCC-DDDDD-EEEEEEE"

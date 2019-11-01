@@ -80,12 +80,25 @@
 
 - name: Prepare the AS3 Juice Shop application declaration from the template
   template:
-    src: "{{ role_path }}/templates/{{ as3_app_template }}"
-    dest: "{{ tmp_dir }}/{{ as3_app_declaration }}"
+    src: "{{ role_path }}/templates/{{ as3_juiceshop_template }}"
+    dest: "{{ tmp_dir }}/{{ as3_juiceshop_declaration }}"
 
 - name: Deploy the Juice Shop app service configuration
   bigip_appsvcs_extension:
-    content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_app_declaration }}') }}"
+    content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_juiceshop_declaration }}') }}"
+    state: present
+    provider: "{{ bigip_provider }}"
+  delegate_to: localhost
+
+
+- name: Prepare the AS3 Grafana application declaration from the template
+  template:
+    src: "{{ role_path }}/templates/{{ as3_grafana_template }}"
+    dest: "{{ tmp_dir }}/{{ as3_grafana_declaration }}"
+
+- name: Deploy the Grafana app service configuration
+  bigip_appsvcs_extension:
+    content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_grafana_declaration }}') }}"
     state: present
     provider: "{{ bigip_provider }}"
   delegate_to: localhost
