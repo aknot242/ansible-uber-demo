@@ -40,7 +40,7 @@
                 "http_{{ grafana_tenant | lower }}": {
                     "class": "Monitor",
                     "monitorType": "http",
-                    "send": "GET / HTTP/1.0\r\n",
+                    "send": "GET /login HTTP/1.0\r\n",
                     "receive": "HTTP/1.1 200 OK",
                     "interval": 5,
                     "timeout": 16
