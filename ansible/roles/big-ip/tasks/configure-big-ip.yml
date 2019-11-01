@@ -43,15 +43,14 @@
 - name: Wait for Declarative Onboarding to finish up
   uri:
     url: "https://{{ bigip_provider.server }}/mgmt/shared/declarative-onboarding"
-    status_code:
-      - 200
-      - 202
+    status_code: 200
     headers:
       X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     validate_certs: "{{ bigip_provider.validate_certs }}"
   register: result
-  failed_when: "(result.status != 200) and (result.status != 202)"
   until: result.status == 200
+  retries: 30
+  delay: 10
 
 
 - name: Prepare the common AS3 objects declaration from the template
