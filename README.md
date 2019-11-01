@@ -12,7 +12,7 @@ A comprehensive demonstration Ansible-based solution to quickly build and deploy
 
 ## Dependencies
 - F5 BIG-IP 14.1.0.3-0.0.6 (or greater) with LTM and ASM modules licensed
-- [RedHat Ansible](https://www.ansible.com/) 2.8
+- [RedHat Ansible](https://www.ansible.com/) 2.5+
 - [Chef Inspec](https://www.inspec.io/) 4.7+
 
 ## Prerequisites
@@ -96,7 +96,7 @@ The following are the actual steps needed to execute the demo:
     7. Run attack script: `./run-attack.sh http://10.1.10.20`
 
 ## Variable Reference
-Variables can be overriden in a number of locations in the playbooks. Primarily, the variables are set in the [inventory.yml](ansible/inventory.yml) file. To learn about variable precendence in Ansible, see [this article](https://subscription.packtpub.com/book/networking_and_servers/9781787125681/1/ch01lvl1sec13/variable-precedence).
+Variables can be overriden in a number of locations in the playbooks. Primarily, the variables are set in the [inventory.yml](ansible/inventory.yml) file. To learn about variable precendence in Ansible, see the [user guide](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable).
 
 ### Common variables (applied to all hosts in inventory)
 | Variable Name | Description | Required |
