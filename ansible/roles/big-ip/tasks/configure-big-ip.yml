@@ -11,7 +11,7 @@
     method: POST
     url: "https://{{ bigip_provider.server }}/mgmt/shared/authn/login"
     status_code: 200
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   register: bigip_auth_response
   retries: 30
   delay: 5
@@ -23,7 +23,7 @@
       X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     method: GET
     url: "https://{{ bigip_provider.server }}/mgmt/shared/declarative-onboarding/available"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   retries: 30
   delay: 5
   register: result
@@ -38,7 +38,7 @@
     method: POST
     status_code: 202
     url: "https://{{ bigip_provider.server }}/mgmt/shared/declarative-onboarding"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
 
 - name: Wait for Declarative Onboarding to finish up
   uri:
@@ -46,7 +46,7 @@
     status_code: 200
     headers:
       X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   register: result
   until: result.status == 200
   retries: 30
@@ -64,7 +64,7 @@
       X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     method: GET
     url: "https://{{ bigip_provider.server }}/mgmt/shared/appsvcs/available"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   retries: 30
   delay: 5
   register: result
@@ -75,7 +75,7 @@
     content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_ts_dependencies_declaration }}') }}"
     state: present
     provider: "{{ bigip_provider }}"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   delegate_to: localhost
 
 
@@ -89,7 +89,7 @@
     content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_app_declaration }}') }}"
     state: present
     provider: "{{ bigip_provider }}"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   delegate_to: localhost
 
 
@@ -104,7 +104,7 @@
       X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     method: GET
     url: "https://{{ bigip_provider.server }}/mgmt/shared/telemetry/available"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   retries: 30
   delay: 5
   register: result
@@ -119,7 +119,7 @@
     method: POST
     status_code: 200
     url: "https://{{ bigip_provider.server }}/mgmt/shared/telemetry/declare"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
 
 - name: Destroy an API token
   uri:
@@ -128,5 +128,5 @@
     headers:
       X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     status_code: 200
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   register: bigip_auth_response

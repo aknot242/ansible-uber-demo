@@ -115,7 +115,6 @@ Variables can be overriden in a number of locations in the playbooks. Primarily,
 | Variable Name            | Description | Required |
 |--------------------------|---|:-:|
 | bigip_provider           | BIG-IP management connection information. <br />Documented [here](https://docs.ansible.com/ansible/latest/modules/bigip_appsvcs_extension_module.html#bigip-appsvcs-extension-module).|*|
-| bigip_validate_certs     | Determines whether or not a TLS certificate is validated <br />when connecting to the BIG-IP's management API for the scope of the Ansible plays. |*|
 | bigip_domain             | Used when building the FQDN portion of the BIG-IP host <br />name as well as the DNS search suffix. |*|
 | bigip_hostname           | Fully qualified host name of the BIG-IP. |*|
 | bigip_ntp_server         | A comma-separated double-quoted list of NTP servers that the BIG-IP should use. |*|
