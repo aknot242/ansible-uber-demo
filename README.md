@@ -12,7 +12,7 @@ A comprehensive demonstration Ansible-based solution to quickly build and deploy
 
 ## Dependencies
 - F5 BIG-IP 14.1.0.3-0.0.6 (or greater) with LTM and ASM modules licensed
-- [RedHat Ansible](https://www.ansible.com/) 2.5+
+- [RedHat Ansible](https://www.ansible.com/) 2.7+
 - [Chef Inspec](https://www.inspec.io/) 4.7+
 
 ## Prerequisites
