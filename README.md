@@ -16,37 +16,49 @@ A comprehensive demonstration Ansible-based solution to quickly build and deploy
 - [Chef Inspec](https://www.inspec.io/) 4.7+
 
 ## Prerequisites
-- This demo assumes an Ansible and [Docker](https://www.docker.com/) host running on [Ubuntu](https://ubuntu.com/) release 18.04 (Bionic)
+- This demo assumes an environment build using http://github.com/mjmenger/terraform-aws-bigip-setup. Connect to the jumphost using the information and credentials provided by the environment build.
 
-```
-docker run --rm -it willhallonline/ansible:2.8-ubuntu-18.04 /bin/sh
-```
-
-- The Ubuntu server must be able to connect to your specified BIG-IP. Run from within the container to validate configuration and connectivity.
+- The jumphost must be able to connect to your specified BIG-IP. Run the following from within the jumphost to validate configuration and connectivity.
 ```
 inspec exec demo-setup --input bigip_host=[hostname of bigip] bigip_mgmt_port=[mgmt port of bigip]
 ```
 
-- The BIG-IP must already be configured with a management address, and must already have an admin account password set. See [these instructions](https://support.f5.com/csp/article/K13121) for setting the admin password on BIG-IP.
-
 - Both the BIG-IP and Ubuntu server require outbound conectivity to github.com and npmjs.com
 
 ## Usage
-- ssh into your Ubuntu 18.04 docker container and execute the following:
-    - `scp -i <path to privatekeyfile> ubuntu@<ubuntuserver>:~/privatekeyfile`
-    - `git clone https://github.com/mjmenger/ansible-uber-demo.git`
-    - `cp ~/inventory.yml ~/ansible-uber-demo/ansible/inventory.yml`
-    - `cd ansible-uber-demo`
-    - `./install-ubuntu-dependencies.sh`. This will install the linux dependencies required to run Docker and Ansible.
-    - `./deploy.sh`. This will run the Ansible playbook to configure everything.
-    - If you would like to generate traffic to the Juice Shop site, use this example command from the Ubuntu server: `./run-load.sh http://10.1.10.20 10` . The first argument is the destination Virtual Server configured for Juice Shop. The second argument is the number of times the traffic generation script should run.
-    - To attack the Juice Shop site scanning for security vulnerabilities, use this example command from the Ubuntu server: `./run-attack.sh http://10.1.10.20` .
+- before connecting to your jumphost, place the private key on the jumphost with the following command
+```bash
+scp -i <path to privatekeyfile> ubuntu@<ubuntuserver>:~/privatekeyfile
+```
 
+- ssh into your jumphost with the following command
+```bash
+ssh -i <path to privatekeyfile> ubuntu@<ubuntuserver>
+```
+
+- prepare the jumphost to run the ansible playbook with the follow commands
+```bash
+git clone https://github.com/mjmenger/ansible-uber-demo.git 
+cp ~/inventory.yml ~/ansible-uber-demo/ansible/inventory.yml
+cd ansible-uber-demo
+./install-ubuntu-dependencies.sh # This will install the linux dependencies required to run Docker and Ansible.
+```
+- run the ansible playboook with the following command
+``` bash
+./deploy.sh
+```
+
+- If you would like to generate traffic to the Juice Shop site, use following command from the jumphost. The first argument is the destination Virtual Server configured for Juice Shop. The second argument is the number of times the traffic generation script should run.
+ ```bash
+ ./run-load.sh http://10.1.10.20 10
+ ```
+ - To attack the Juice Shop site scanning for security vulnerabilities, use this example command from the jumphost. The first argument is the destination Virtual Server configured for Juice Shop. 
+ ```bash
+ ./run-attack.sh http://10.1.10.20
+```
 ## Pinning to specific BIG-IP Package Versions
 The F5 Automation Toolchain packages used in this project are [Application Services 3](https://github.com/F5Networks/f5-appsvcs-extension), [Declarative Onboarding](https://github.com/F5Networks/f5-declarative-onboarding) and [Telemetry Streaming](https://github.com/F5Networks/f5-telemetry-streaming). The default variables in the Ansible Playbook are configured to use specific tagged releases for each of these packages. The default values can be seen [here](ansible/roles/big-ip/defaults/main.yml). You can also specify that you would like Ansible to fetch the latest release, no matter the tag using the `<package name>_use_latest` variables per package.
 
-## Attributions
-- Thanks to [mrlesmithjr](https://github.com/mrlesmithjr) for his [Netplan Ansible Role](https://github.com/mrlesmithjr/ansible-netplan)
 
 ## Playbook Flow
 The following is a high-level flow of the steps taken when preparing for and executing this playbook. (* denotes steps that are not currently implemented for you):
