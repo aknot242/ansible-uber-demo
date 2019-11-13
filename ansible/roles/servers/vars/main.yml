@@ -1,0 +1,27 @@
+# role variables	
+
+# Netplan is a utility for easily configuring networking on a linux system. 	
+# You simply create a YAML description of the required network interfaces and what 	
+# each should be configured to do. From this description Netplan will generate all 	
+# the necessary configuration for your system.	
+# Unfortunately, Ansible does not have a native module to manage Netplan configuration. 	
+# However, there is an Ansible role to add this capability: https://galaxy.ansible.com/mrlesmithjr/netplan	
+# The following configuration is utilized by this Netplan Ansible role:	
+
+# The netplan role will do nothing unless netplan_enabled is true.	
+netplan_enabled: true	
+# The default is /etc/netplan/config.yaml.	
+netplan_config_file: /etc/netplan/udf-netplan.yaml	
+# Ubuntu 18.04, for example, defaults to using networkd.	
+netplan_renderer: networkd	
+netplan_remove_existing: false	
+netplan_apply: true	
+netplan_configuration:	
+  network:	
+    version: 2	
+    ethernets:	
+      eth1:	
+        dhcp4: false	
+        addresses:	
+          - "{{ app_server_address }}/24"	
+        gateway4: "{{ app_server_gateway }}"

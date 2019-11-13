@@ -1,4 +1,5 @@
 # role default variables
+add_ubuntu_interface: false
 
 grafana_port: "3030"
 grafana_base_url: "http://{{ inventory_hostname }}:{{ grafana_port }}"

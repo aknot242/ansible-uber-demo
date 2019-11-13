@@ -113,14 +113,18 @@ Variables can be overridden in a number of locations in the playbooks. Primarily
 ### Common variables (applied to all hosts in inventory)
 | Variable Name | Description | Required |
 |---------------------|---|:-:|
-| app_server_address  | The address that is assigned to the Juice Shop and Grafana Virtual Server pool member. |*|
+| ansible_connection  | Connection type used when connecting to the Ubuntu host. |*|
+| ansible_user        | User name with which to login to the Ubuntu server via ssh. |*|
+| ansible_become      | determines if privilege escalation is used while issuing Ansible tasks on the Ubuntu server. |*|
+| app_server_address  | The address that is assigned to the Juice Shop and Grafana Virtual Server pool members. <br /> If the add_ubuntu_interface variable is set to true, this address will also be assigned to the eth1 interface<br /> of the Ubuntu server. |*|
 
 
 ### ***Server*** host variables
 | Variable Name            | Description | Required |
 |--------------------------|---|:-:|
 | ansible_connection       | Instructs ansible to suppress the use of ssh when <br />connecting to this host. More info [here](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html). |*|
-| app_server_gateway       | The gateway address to be used when creating the addition <br />interface on the Ububtu server |*|
+| app_server_gateway       | The gateway address to be used when creating the additional <br />interface on the Ubuntu server. ||
+| add_ubuntu_interface     | Boolean to add an optional network interface (eth1) to the Ubuntu server using the NetPlan role. ||
 
 
 ### ***BIG-IP*** host variables
@@ -140,3 +144,7 @@ Variables can be overridden in a number of locations in the playbooks. Primarily
 | grafana_virtual_address  | The IP address of the Grafana Virtual Server that will be created. |*|
 | log_pool                 | The IP address of the Virtual Server and looging pool that the LTM Request Policy and ASM Logs will target.<br /> Recommended to use an IP address on the Internal network, as it is not needed to be accessed publically. |*|
 | bigip_license            | The license key for the BIG-IP. If not specified, the BIG-IP will not be licensed when the playbook runs. ||
+
+
+## Attributions
+- Thanks to [mrlesmithjr](https://github.com/mrlesmithjr) for his [Netplan Ansible Role](https://github.com/mrlesmithjr/ansible-netplan)
