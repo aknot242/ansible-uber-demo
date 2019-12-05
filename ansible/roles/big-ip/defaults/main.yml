@@ -1,7 +1,7 @@
 # role default variables
 elasticsearch_index: "f5telemetryindex"
 ts_listener_port: 6514
-log_pool: 10.1.20.9
+log_pool: "10.1.20.9"
 
 tmp_dir: "{{role_path}}/files/tmp"
 

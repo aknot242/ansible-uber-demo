@@ -1,3 +1,5 @@
+# ALL VARIABLES ARE DOCUMENTED IN THE README
+
 all:
   vars:
     app_server_address: "10.1.20.11"
@@ -7,8 +9,11 @@ all:
       hosts:
         10.1.1.5:
           ansible_connection: ssh
+          ansible_user: "ubuntu"
+          ansible_become: true
+          ansible_ssh_private_key_file: "/path/to/privatekeyfile"
+          add_ubuntu_interface: true
           app_server_gateway: "10.1.20.1"
-          ansible_ssh_private_key_file: "/User/menger/Downloads/f5uberdemo.pem"
 
     big_ips:
       hosts:
@@ -28,7 +33,7 @@ all:
           bigip_internal_self_ip: "10.1.20.241/24"
           juiceshop_virtual_address: "10.1.10.20"
           grafana_virtual_address: "10.1.10.21"
-          log_pool: 10.1.20.9
+          log_pool: "10.1.20.9"
 
           # BIG-IP license key. Only declare this variable if you desire the licensing task in Declarative Onboarding to run.
           # bigip_license: "AAAAA-BBBBB-CCCCC-DDDDD-EEEEEEE"
