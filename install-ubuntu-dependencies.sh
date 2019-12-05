@@ -8,6 +8,7 @@ sudo apt-add-repository --yes --update ppa:ansible/ansible
 sudo apt install software-properties-common ansible python-apt python-pip rpm -y
 sudo pip install -q jmespath
 ansible-galaxy install -r ansible/requirements.yml
+sudo apt install docker.io -y
 
 # install inspec
 sudo apt install wget
