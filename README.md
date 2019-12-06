@@ -38,7 +38,7 @@ ssh -i <path to privatekeyfile> ubuntu@<ubuntuserver>
 
 - prepare the jumphost to run the ansible playbook with the follow commands
 ```bash
-git clone https://github.com/mjmenger/ansible-uber-demo.git 
+git clone https://github.com/aknot242/ansible-uber-demo.git 
 cp ~/inventory.yml ~/ansible-uber-demo/ansible/inventory.yml
 cd ansible-uber-demo
 ./install-ubuntu-dependencies.sh # This will install the linux dependencies required to run Docker and Ansible.

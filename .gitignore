@@ -8,3 +8,6 @@ output.har
 # ignore downloaded packages
 *.deb
 *.rpm
+
+# ignore OSX hidden files
+.DS_Store
