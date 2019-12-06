@@ -46,5 +46,4 @@
     package: "{{ tmp_dir }}/{{ as3_file }}"
     provider: "{{ bigip_provider }}"
     state: present
-    validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost

@@ -5,10 +5,10 @@
     "declaration": {
         "class": "ADC",
         "schemaVersion": "3.9.0",
-        "id": "{{ app_tenant | lower }}",
-        "label": "{{ app_tenant }}",
+        "id": "{{ juiceshop_tenant | lower }}",
+        "label": "{{ juiceshop_tenant }}",
         "remark": "Juice Shop Web App",
-        "{{ app_tenant }}": {
+        "{{ juiceshop_tenant }}": {
             "class": "Tenant",
             "Application_1": {
                 "class": "Application",
@@ -16,7 +16,7 @@
                 "serviceMain": {
                     "class": "Service_HTTP",
                     "virtualAddresses": [
-                        "{{ app_virtual_address }}"
+                        "{{ juiceshop_virtual_address }}"
                     ],
                     "pool": "web_pool",
                     "profileTrafficLog": {
@@ -38,19 +38,20 @@
                     "class": "Pool",
                     "monitors": [
                         {
-                            "use": "http_{{ app_tenant | lower }}"
+                            "use": "http_{{ juiceshop_tenant | lower }}"
                         }
                     ],
                     "members": [
                         {
-                            "servicePort": {{ app_server_port }},
+                            "servicePort": {{ juiceshop_server_port }},
                             "serverAddresses": [
                                 "{{ app_server_address }}"
-                            ]
+                            ],
+                            "shareNodes": true
                         }
                     ]
                 },
-                "http_{{ app_tenant | lower }}": {
+                "http_{{ juiceshop_tenant | lower }}": {
                     "class": "Monitor",
                     "monitorType": "http",
                     "send": "GET / HTTP/1.0\r\n",

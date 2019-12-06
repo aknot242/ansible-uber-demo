@@ -1,0 +1,51 @@
+{
+    "class": "AS3",
+    "action": "deploy",
+    "persist": true,
+    "declaration": {
+        "class": "ADC",
+        "schemaVersion": "3.9.0",
+        "id": "{{ grafana_tenant | lower }}",
+        "label": "{{ grafana_tenant }}",
+        "remark": "Grafana Web App",
+        "{{ grafana_tenant }}": {
+            "class": "Tenant",
+            "Application_1": {
+                "class": "Application",
+                "template": "http",
+                "serviceMain": {
+                    "class": "Service_HTTP",
+                    "virtualAddresses": [
+                        "{{ grafana_virtual_address }}"
+                    ],
+                    "pool": "web_pool"
+                },
+                "web_pool": {
+                    "class": "Pool",
+                    "monitors": [
+                        {
+                            "use": "http_{{ grafana_tenant | lower }}"
+                        }
+                    ],
+                    "members": [
+                        {
+                            "servicePort": {{ grafana_server_port }},
+                            "serverAddresses": [
+                                "{{ app_server_address }}"
+                            ],
+                            "shareNodes": true
+                        }
+                    ]
+                },
+                "http_{{ grafana_tenant | lower }}": {
+                    "class": "Monitor",
+                    "monitorType": "http",
+                    "send": "GET /login HTTP/1.0\r\n",
+                    "receive": "HTTP/1.0 200 OK",
+                    "interval": 5,
+                    "timeout": 16
+                }
+            }
+        }
+    }
+}

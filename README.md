@@ -16,35 +16,49 @@ A comprehensive demonstration Ansible-based solution to quickly build and deploy
 - [Chef Inspec](https://www.inspec.io/) 4.7+
 
 ## Prerequisites
-- This demo assumes an Ansible and [Docker](https://www.docker.com/) host running on [Ubuntu](https://ubuntu.com/) release 18.04 (Bionic)
+- This demo assumes an environment build using http://github.com/mjmenger/terraform-aws-bigip-setup. Connect to the jumphost using the information and credentials provided by the environment build.
 
-```
-docker run --rm -it willhallonline/ansible:2.8-ubuntu-18.04 /bin/sh
-```
-
-- The Ubuntu server must be able to connect to your specified BIG-IP. Run from within the container to validate configuration and connectivity.
+- The jumphost must be able to connect to your specified BIG-IP. Run the following from within the jumphost to validate configuration and connectivity.
 ```
 inspec exec demo-setup --input bigip_host=[hostname of bigip] bigip_mgmt_port=[mgmt port of bigip]
 ```
 
-- The BIG-IP must already be configured with a management address, and must already have an admin account password set. See [these instructions](https://support.f5.com/csp/article/K13121) for setting the admin password on BIG-IP.
-
 - Both the BIG-IP and Ubuntu server require outbound conectivity to github.com and npmjs.com
 
 ## Usage
-- ssh into your Ubuntu 18.04 docker container and execute the following:
-    - `git clone https://github.com/aknot242/ansible-uber-demo.git`
-    - `cd ansible-uber-demo`
-    - `./install-ubuntu-dependencies.sh`. This will install the linux dependencies required to run Docker and Ansible.
-    - `./deploy.sh`. This will run the Ansible playbook to configure everything.
-    - If you would like to generate traffic to the Juice Shop site, use this example command from the Ubuntu server: `./run-load.sh http://10.1.10.20 10` . The first argument is the destination Virtual Server configured for Juice Shop. The second argument is the number of times the traffic generation script should run.
-    - To attack the Juice Shop site scanning for security vulnerabilities, use this example command from the Ubuntu server: `./run-attack.sh http://10.1.10.20` .
+- before connecting to your jumphost, place the private key on the jumphost with the following command
+```bash
+scp -i <path to privatekeyfile> ubuntu@<ubuntuserver>:~/privatekeyfile
+```
 
+- ssh into your jumphost with the following command
+```bash
+ssh -i <path to privatekeyfile> ubuntu@<ubuntuserver>
+```
+
+- prepare the jumphost to run the ansible playbook with the follow commands
+```bash
+git clone https://github.com/mjmenger/ansible-uber-demo.git 
+cp ~/inventory.yml ~/ansible-uber-demo/ansible/inventory.yml
+cd ansible-uber-demo
+./install-ubuntu-dependencies.sh # This will install the linux dependencies required to run Docker and Ansible.
+```
+- run the ansible playboook with the following command
+``` bash
+./deploy.sh
+```
+
+- If you would like to generate traffic to the Juice Shop site, use following command from the jumphost. The first argument is the destination Virtual Server configured for Juice Shop. The second argument is the number of times the traffic generation script should run.
+ ```bash
+ ./run-load.sh http://10.1.10.20 10
+ ```
+ - To attack the Juice Shop site scanning for security vulnerabilities, use this example command from the jumphost. The first argument is the destination Virtual Server configured for Juice Shop. 
+ ```bash
+ ./run-attack.sh http://10.1.10.20
+```
 ## Pinning to specific BIG-IP Package Versions
 The F5 Automation Toolchain packages used in this project are [Application Services 3](https://github.com/F5Networks/f5-appsvcs-extension), [Declarative Onboarding](https://github.com/F5Networks/f5-declarative-onboarding) and [Telemetry Streaming](https://github.com/F5Networks/f5-telemetry-streaming). The default variables in the Ansible Playbook are configured to use specific tagged releases for each of these packages. The default values can be seen [here](ansible/roles/big-ip/defaults/main.yml). You can also specify that you would like Ansible to fetch the latest release, no matter the tag using the `<package name>_use_latest` variables per package.
 
-## Attributions
-- Thanks to [mrlesmithjr](https://github.com/mrlesmithjr) for his [Netplan Ansible Role](https://github.com/mrlesmithjr/ansible-netplan)
 
 ## Playbook Flow
 The following is a high-level flow of the steps taken when preparing for and executing this playbook. (* denotes steps that are not currently implemented for you):
@@ -94,19 +108,23 @@ The following are the actual steps needed to execute the demo:
     7. Run attack script: `./run-attack.sh http://10.1.10.20`
 
 ## Variable Reference
-Variables can be overriden in a number of locations in the playbooks. Primarily, the variables are set in the [inventory.yml](ansible/inventory.yml) file. To learn about variable precendence in Ansible, see [this article](https://subscription.packtpub.com/book/networking_and_servers/9781787125681/1/ch01lvl1sec13/variable-precedence).
+Variables can be overridden in a number of locations in the playbooks. Primarily, the variables are set in the [inventory.yml](ansible/inventory.yml) file. To learn about variable precendence in Ansible, see the [user guide](https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable).
 
 ### Common variables (applied to all hosts in inventory)
 | Variable Name | Description | Required |
 |---------------------|---|:-:|
-| app_server_address  | The address that is assigned to both the Ubuntu server's <br />eth1 interface as well as the Juice Shop Virtual Server pool member. |*|
+| ansible_connection  | Connection type used when connecting to the Ubuntu host. |*|
+| ansible_user        | User name with which to login to the Ubuntu server via ssh. |*|
+| ansible_become      | determines if privilege escalation is used while issuing Ansible tasks on the Ubuntu server. |*|
+| app_server_address  | The address that is assigned to the Juice Shop and Grafana Virtual Server pool members. <br /> If the add_ubuntu_interface variable is set to true, this address will also be assigned to the eth1 interface<br /> of the Ubuntu server. |*|
 
 
 ### ***Server*** host variables
 | Variable Name            | Description | Required |
 |--------------------------|---|:-:|
 | ansible_connection       | Instructs ansible to suppress the use of ssh when <br />connecting to this host. More info [here](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html). |*|
-| app_server_gateway       | The gateway address to be used when creating the addition <br />interface on the Ububtu server |*|
+| app_server_gateway       | The gateway address to be used when creating the additional <br />interface on the Ubuntu server. ||
+| add_ubuntu_interface     | Boolean to add an optional network interface (eth1) to the Ubuntu server using the NetPlan role. ||
 
 
 ### ***BIG-IP*** host variables
@@ -122,5 +140,11 @@ Variables can be overriden in a number of locations in the playbooks. Primarily,
 | bigip_dns_search         | The DNS search domain. |*|
 | bigip_external_self_ip   | The BIG-IPs self-ip address on the external interface. |*|
 | bigip_internal_self_ip   | The BIG-IPs self-ip address on the internal interface. |*|
-| app_virtual_address      | The IP address of the Juice Shop Virtual Server that will be created. |*|
-| bigip_license            | The license key for the BIG-IP. If not specified, <br />the BIG-IP will not be licensed when the playbook runs. ||
+| juiceshop_virtual_address| The IP address of the Juice Shop Virtual Server that will be created. |*|
+| grafana_virtual_address  | The IP address of the Grafana Virtual Server that will be created. |*|
+| log_pool                 | The IP address of the Virtual Server and looging pool that the LTM Request Policy and ASM Logs will target.<br /> Recommended to use an IP address on the Internal network, as it is not needed to be accessed publically. |*|
+| bigip_license            | The license key for the BIG-IP. If not specified, the BIG-IP will not be licensed when the playbook runs. ||
+
+
+## Attributions
+- Thanks to [mrlesmithjr](https://github.com/mrlesmithjr) for his [Netplan Ansible Role](https://github.com/mrlesmithjr/ansible-netplan)

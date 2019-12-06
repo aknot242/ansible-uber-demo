@@ -1,23 +1,26 @@
 # role default variables
 elasticsearch_index: "f5telemetryindex"
 ts_listener_port: 6514
-log_pool: 10.1.20.9
+log_pool: "10.1.20.9"
 
 tmp_dir: "{{role_path}}/files/tmp"
 
 do_base: "do-declaration"
 as3_ts_dependencies_base: "as3-common-declaration"
-as3_app_base: "as3-app-declaration"
+as3_juiceshop_base: "as3-juiceshop-declaration"
+as3_grafana_base: "as3-grafana-declaration"
 ts_base: "ts-declaration"
 
 do_template: "{{ do_base }}.j2"
 as3_ts_dependencies_template: "{{ as3_ts_dependencies_base }}.j2"
-as3_app_template: "{{ as3_app_base }}.j2"
+as3_juiceshop_template: "{{ as3_juiceshop_base }}.j2"
+as3_grafana_template: "{{ as3_grafana_base }}.j2"
 ts_template: "{{ ts_base }}.j2"
 
 do_declaration: "{{ do_base }}.json"
 as3_ts_dependencies_declaration: "{{ as3_ts_dependencies_base }}.json"
-as3_app_declaration: "{{ as3_app_base }}.json"
+as3_juiceshop_declaration: "{{ as3_juiceshop_base }}.json"
+as3_grafana_declaration: "{{ as3_grafana_base }}.json"
 ts_declaration: "{{ ts_base }}.json"
 
 f5_networks_github_base_url: "https://api.github.com/repos/F5Networks"
@@ -37,5 +40,7 @@ ts_file_sha256: "{{ts_file}}.sha256"
 ts_use_latest: false
 ts_requested_tag: "v1.6.0" # a default value that is used if not overidden and if ts_use_latest = false
 
-app_tenant: "JuiceShop"
-app_server_port: "3300"
+juiceshop_tenant: "JuiceShop"
+juiceshop_server_port: "3300"
+grafana_tenant: "Grafana"
+grafana_server_port: "3030"

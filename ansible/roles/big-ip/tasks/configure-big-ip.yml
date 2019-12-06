@@ -11,11 +11,11 @@
     method: POST
     url: "https://{{ bigip_provider.server }}/mgmt/shared/authn/login"
     status_code: 200
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   register: bigip_auth_response
   retries: 30
   delay: 5
-  until: "(bigip_auth_response | success) and (bigip_auth_response.status == 200)"
+  until: "(bigip_auth_response is successful) and (bigip_auth_response.status == 200)"
 
 - name: Validate DO rest worker is ready
   uri:
@@ -23,11 +23,11 @@
       X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     method: GET
     url: "https://{{ bigip_provider.server }}/mgmt/shared/declarative-onboarding/available"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   retries: 30
   delay: 5
   register: result
-  until: "(result | success) and (result.status == 200)"
+  until: "(result is successful) and (result.status == 200)"
 
 - name: Use Declarative Onboarding to Async configure BIG-IP
   uri:
@@ -38,7 +38,7 @@
     method: POST
     status_code: 202
     url: "https://{{ bigip_provider.server }}/mgmt/shared/declarative-onboarding"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
 
 - name: Wait for Declarative Onboarding to finish up
   uri:
@@ -46,7 +46,7 @@
     status_code: 200
     headers:
       X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   register: result
   until: result.status == 200
   retries: 30
@@ -64,32 +64,43 @@
       X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     method: GET
     url: "https://{{ bigip_provider.server }}/mgmt/shared/appsvcs/available"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   retries: 30
   delay: 5
   register: result
-  until: "(result | success) and (result.status == 200)"
+  until: "(result is successful) and (result.status == 200)"
 
 - name: Deploy common AS3 objects for use by Telemetry Streaming
   bigip_appsvcs_extension:
     content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_ts_dependencies_declaration }}') }}"
     state: present
     provider: "{{ bigip_provider }}"
-    validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
 
 
 - name: Prepare the AS3 Juice Shop application declaration from the template
   template:
-    src: "{{ role_path }}/templates/{{ as3_app_template }}"
-    dest: "{{ tmp_dir }}/{{ as3_app_declaration }}"
+    src: "{{ role_path }}/templates/{{ as3_juiceshop_template }}"
+    dest: "{{ tmp_dir }}/{{ as3_juiceshop_declaration }}"
 
 - name: Deploy the Juice Shop app service configuration
   bigip_appsvcs_extension:
-    content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_app_declaration }}') }}"
+    content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_juiceshop_declaration }}') }}"
     state: present
     provider: "{{ bigip_provider }}"
-    validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+
+
+- name: Prepare the AS3 Grafana application declaration from the template
+  template:
+    src: "{{ role_path }}/templates/{{ as3_grafana_template }}"
+    dest: "{{ tmp_dir }}/{{ as3_grafana_declaration }}"
+
+- name: Deploy the Grafana app service configuration
+  bigip_appsvcs_extension:
+    content: "{{ lookup('file', '{{ tmp_dir }}/{{ as3_grafana_declaration }}') }}"
+    state: present
+    provider: "{{ bigip_provider }}"
   delegate_to: localhost
 
 
@@ -104,11 +115,11 @@
       X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     method: GET
     url: "https://{{ bigip_provider.server }}/mgmt/shared/telemetry/available"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   retries: 30
   delay: 5
   register: result
-  until: "(result | success) and (result.status == 200)"
+  until: "(result is successful) and (result.status == 200)"
 
 - name: Use Telemetry Streaming to configure BIG-IP
   uri:
@@ -119,7 +130,7 @@
     method: POST
     status_code: 200
     url: "https://{{ bigip_provider.server }}/mgmt/shared/telemetry/declare"
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
 
 - name: Destroy an API token
   uri:
@@ -128,5 +139,5 @@
     headers:
       X-F5-Auth-Token: "{{ bigip_auth_response.json.token.token }}"
     status_code: 200
-    validate_certs: "{{ bigip_validate_certs }}"
+    validate_certs: "{{ bigip_provider.validate_certs }}"
   register: bigip_auth_response
