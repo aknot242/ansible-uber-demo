@@ -8,4 +8,4 @@ curl -fsSL https://get.docker.com/ | sh
 
 # install inspec
 wget https://packages.chef.io/files/stable/inspec/4.18.39/el/7/inspec-4.18.39-1.el7.x86_64.rpm
-sudo yum localinstall inspec-4.18.39-1.el7.x86_64.rpm
+sudo yum -y localinstall inspec-4.18.39-1.el7.x86_64.rpm
