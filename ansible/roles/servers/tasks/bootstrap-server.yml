@@ -42,8 +42,8 @@
 - name: Create new network interface	
   import_role:	
     name: ansible-netplan
-  when: add_ubuntu_interface
+  when: add_server_interface
 
 - name: Force netplan apply (ansible-netplan does not seem to be doing it)	
   raw: sudo netplan apply
-  when: add_ubuntu_interface
+  when: add_server_interface
