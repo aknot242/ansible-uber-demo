@@ -1,9 +1,8 @@
 
 
 # install dependencies
-yum update
-yum install git
-yum install sudo
+sudo yum update
+sudo yum install git
 sudo yum install epel-release
 sudo subscription-manager repos --enable rhel-7-server-ansible-2.9-rpms
 sudo yum install ansible
