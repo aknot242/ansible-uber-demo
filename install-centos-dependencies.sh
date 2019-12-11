@@ -2,7 +2,7 @@
 
 # install dependencies
 sudo yum update
-sudo yum install -y git wget epel-release ansible
+sudo yum -y install git wget epel-release ansible
 sudo subscription-manager repos --enable rhel-7-server-ansible-2.9-rpms
 sudo pip install jmespath
 curl -fsSL https://get.docker.com/ | sh
