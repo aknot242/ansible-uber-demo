@@ -1,3 +1,6 @@
 ---
+- name: Create the tmp folder of does not exist
+  file: path={{ tmp_dir }} state=directory mode=0755
+
 - name: Configure BIG-IP
   import_tasks: configure-big-ip.yml
