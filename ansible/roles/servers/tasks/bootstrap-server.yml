@@ -19,6 +19,13 @@
     state: latest
   when: ansible_distribution == 'Ubuntu'
 
+- name: Install required CentOS system packages
+  package:
+    name:
+      - epel-release
+    state: latest
+  when: ansible_distribution == 'CentOS'
+
 - name: Install general required system packages
   package:
     name:
