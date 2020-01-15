@@ -36,7 +36,7 @@
     name: docker-compose
 
 - name: Create new network interface	
-  import_role:	
+  include_role:	
     name: ansible-netplan
   when: ansible_distribution == 'Ubuntu' && add_server_interface
 
