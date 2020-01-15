@@ -37,7 +37,6 @@
       - python-setuptools
       - rpm
       - python-jmespath
-
     state: latest
 
 - name: Make sure Docker service is running and set to automatically start on boot
