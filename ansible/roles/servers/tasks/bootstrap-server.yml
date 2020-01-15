@@ -10,26 +10,23 @@
     state: present
 
 - name: Install required system packages
-  apt:
-    name: "{{ packages }}"
+  package:
     state: latest
-    update_cache: true
-    force_apt_get: true
-  vars:
-    packages:
-    - aptitude
-    - apt-transport-https
-    - ca-certificates
-    - curl
-    - python-pip
-    - virtualenv
-    - python-setuptools
-    - rpm
-    - python-jmespath
-    - docker.io
+    name:
+      - aptitude
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - python-pip
+      - virtualenv
+      - python-setuptools
+      - rpm
+      - python-jmespath
+      - docker.io
+    state: latest
 
 - name: Make sure Docker service is running and set to automatically start on boot
-  systemd:
+  service:
     state: started
     name: docker
     enabled: true
@@ -38,12 +35,11 @@
   pip:
     name: docker-compose
 
-
 - name: Create new network interface	
   import_role:	
     name: ansible-netplan
-  when: add_server_interface
+  when: ansible_distribution == 'Ubuntu' && add_server_interface
 
 - name: Force netplan apply (ansible-netplan does not seem to be doing it)	
   raw: sudo netplan apply
-  when: add_server_interface
+  when: ansible_distribution == 'Ubuntu' && add_server_interface
