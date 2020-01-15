@@ -32,7 +32,6 @@
       - ca-certificates
       - curl
       - python-pip
-      - virtualenv
       - python-setuptools
       - rpm
       - python-jmespath
