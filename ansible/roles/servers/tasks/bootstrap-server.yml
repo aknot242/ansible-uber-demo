@@ -16,6 +16,7 @@
     name:
       - aptitude
       - apt-transport-https
+      - docker.io
     state: latest
   when: ansible_distribution == 'Ubuntu'
 
@@ -23,6 +24,7 @@
   package:
     name:
       - epel-release
+      - docker-ce
     state: latest
   when: ansible_distribution == 'CentOS'
 
@@ -35,7 +37,7 @@
       - python-setuptools
       - rpm
       - python-jmespath
-      - docker.io
+
     state: latest
 
 - name: Make sure Docker service is running and set to automatically start on boot
