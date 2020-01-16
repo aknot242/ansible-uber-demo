@@ -1,9 +1,9 @@
 
 
 # install dependencies
-sudo yum -y install git wget epel-release ansible
-sudo subscription-manager repos --enable rhel-7-server-ansible-2.9-rpms
-sudo pip install --upgrade setuptools jmespath
+sudo yum -y install git wget epel-release centos-release-scl rh-python36 python3-pip ansible
+scl enable rh-python36 bash
+sudo pip3 install --upgrade setuptools jmespath
 curl -fsSL https://get.docker.com/ | sh
 
 # install inspec
