@@ -1,9 +1,10 @@
 
 
 # install dependencies
-sudo yum -y install git wget epel-release centos-release-scl rh-python36 python3-pip ansible
-scl enable rh-python36 bash
-sudo pip3 install --upgrade setuptools jmespath
+sudo yum -y install git wget epel-release rh-python36 python3-pip
+virtualenv py3-ansible
+source ./bin/activate
+sudo pip3 install --upgrade virtualenv setuptools ansible jmespath
 curl -fsSL https://get.docker.com/ | sh
 
 # install inspec
